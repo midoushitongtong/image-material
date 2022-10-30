@@ -20,23 +20,28 @@ export const updateHTMLThemeType = (themeType: string) => {
 };
 
 // 监听系统主题
-export const themeTypeEnquire = (callback: (themeType: string) => void) => {
+export const themeTypeEnquire = (props: {
+  callback: (themeType: string) => void;
+  addListener: boolean;
+}) => {
   const meatchMedia = window.matchMedia('(prefers-color-scheme: dark)');
 
   const handlerMatchMedia = () => {
     if (meatchMedia.matches) {
-      callback(THEME_DARK);
+      props.callback(THEME_DARK);
     } else {
-      callback(THEME_LIGHT);
+      props.callback(THEME_LIGHT);
     }
   };
 
   // 页面首次加载, 强制匹配一次
   handlerMatchMedia();
 
-  if (meatchMedia.addListener) {
-    meatchMedia.addListener(handlerMatchMedia);
-  } else if (meatchMedia.addEventListener) {
-    meatchMedia.addEventListener('change', handlerMatchMedia);
+  if (props.addListener) {
+    if (meatchMedia.addListener) {
+      meatchMedia.addListener(handlerMatchMedia);
+    } else if (meatchMedia.addEventListener) {
+      meatchMedia.addEventListener('change', handlerMatchMedia);
+    }
   }
 };

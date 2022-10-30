@@ -9,7 +9,7 @@ const props = defineProps({
   iconName: {
     type: String,
   },
-  // icon 颜色，
+  // icon 颜色,
   iconColor: {
     type: String,
   },
@@ -25,7 +25,7 @@ const props = defineProps({
       const keys = Object.keys(buttonTypeStyle);
       const result = keys.includes(value);
       if (!result) {
-        throw new Error(`type 参数有误，必须是 ${keys.join(', ')} 的其中一种`);
+        throw new Error(`type 参数有误, 必须是 ${keys.join(', ')} 的其中一种`);
       }
       return result;
     },
@@ -38,7 +38,7 @@ const props = defineProps({
       const keys = Object.keys(buttonSizeStyle).filter((item) => !item.includes('icon'));
       const result = keys.includes(value);
       if (!result) {
-        throw new Error(`size 参数有误，必须是 ${keys.join(', ')} 的其中一种`);
+        throw new Error(`size 参数有误, 必须是 ${keys.join(', ')} 的其中一种`);
       }
       return result;
     },
@@ -58,8 +58,8 @@ const props = defineProps({
 // define emits
 const emits = defineEmits(['click']);
 
-// 如果是 icon 按钮，加上 size 前缀
-// 传递了 iconName 参数，就可以认为这是一个 icon 按钮
+// 如果是 icon 按钮, 加上 size 前缀
+// 传递了 iconName 参数, 就可以认为这是一个 icon 按钮
 const formatSize = computed(() => {
   return props.iconName ? `icon-${props.size}` : props.size;
 });

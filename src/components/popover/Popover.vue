@@ -18,7 +18,7 @@ const props = defineProps({
     validator: (value: string) => {
       const result = placementList.includes(value);
       if (!result) {
-        throw new Error(`placement 参数有误， 必须是 ${placementList.join(', ')} 中的其中一种`);
+        throw new Error(`placement 参数有误, 必须是 ${placementList.join(', ')} 中的其中一种`);
       }
       return result;
     },
@@ -62,7 +62,7 @@ const handleMouseLeave = () => {
   }, 100);
 };
 
-// 气泡显示的时候，计算气泡展示的位置
+// 气泡显示的时候,计算气泡展示的位置
 watch(visible, (newValue) => {
   if (!newValue) {
     return;

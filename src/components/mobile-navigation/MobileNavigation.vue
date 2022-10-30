@@ -72,12 +72,12 @@ const updateCurrentCategoryIndex = (index: number) => {
   visibleCategoryModal.value = false;
 };
 
-// 下标修改，刷新 slider 样式
+// 下标修改, 刷新 slider 样式
 watch(currentCategoryIndex, () => {
   refreshSliderStyle();
 });
 
-// fontSize 修改，刷新 slider 样式
+// fontSize 修改, 刷新 slider 样式
 watch(fontSize, () => {
   // 延迟等待字体刷新完成
   setTimeout(() => {

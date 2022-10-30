@@ -4,7 +4,7 @@ import type { DeviceType } from './types';
  * 监听屏幕宽度, 达到阈值 (桌面端, 平板端, 手机端) 后触发回调函数
  * @param callback
  */
-export const deviceTypeEnquire = (callback: (deviceType: DeviceType) => void): void => {
+export const deviceTypeEnquire = (props: { callback: (deviceType: DeviceType) => void }): void => {
   const matchMediaList = [
     window.matchMedia('screen and (min-width: 1200px)'),
     window.matchMedia('screen and (min-width: 768px) and (max-width: 1199px)'),
@@ -13,11 +13,11 @@ export const deviceTypeEnquire = (callback: (deviceType: DeviceType) => void): v
 
   const handlerMatchMedia = () => {
     if (matchMediaList[0].matches) {
-      callback('DESKTOP');
+      props.callback('DESKTOP');
     } else if (matchMediaList[1].matches) {
-      callback('TABLET');
+      props.callback('TABLET');
     } else if (matchMediaList[2].matches) {
-      callback('MOBILE');
+      props.callback('MOBILE');
     }
   };
 

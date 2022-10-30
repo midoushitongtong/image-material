@@ -27,14 +27,13 @@ const emits = defineEmits(['onCategoryListItemClick']);
         :key="item.id"
         :class="[
           'text-sm',
-          'text-zinc-600',
-          'dark:text-zinc-300',
+          'text-zinc-600 dark:text-zinc-300',
           'px-1',
           'py-1.5',
           'duration-100',
           'active:text-zinc-100',
           'active:bg-zinc-900',
-          currentCategoryIndex === index && 'font-bold text-zinc-100 bg-zinc-900',
+          currentCategoryIndex === index && 'font-bold text-zinc-100 bg-zinc-900 dark:bg-zinc-800',
         ]"
         @click="emits('onCategoryListItemClick', index)"
       >
