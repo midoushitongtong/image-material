@@ -1,0 +1,27 @@
+@import './media';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  word-break: break-word;
+}
+
+html {
+  font-size: 15px;
+  @include deviceType('tablet') {
+    font-size: 14px;
+  }
+  @include deviceType('mobile') {
+    font-size: 14px;
+  }
+}
+
+body {
+  color: #181818;
+  line-height: 1.6;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  text-rendering: optimizeLegibility;
+  font-size: 1rem;
+}

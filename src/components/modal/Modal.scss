@@ -1,0 +1,21 @@
+// fade 动画
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s;
+}
+// 准备进入, 离开完成
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+// modal 动画
+.modal-down-up-enter-active,
+.modal-down-up-leave-active {
+  transition: all 0.3s;
+}
+// 准备进入, 离开完成
+.modal-down-up-enter-from,
+.modal-down-up-leave-to {
+  transform: translateY(100%);
+}
