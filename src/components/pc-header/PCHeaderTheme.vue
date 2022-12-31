@@ -40,7 +40,7 @@ const changeTheme = (themeType: string) => {
 </script>
 
 <template>
-  <div class="mr-1">
+  <div class="pc-header-theme mr-1">
     <Popover placement="bottomRight" class="theme-popover">
       <SVGIcon
         :name="svgIcon"

@@ -77,6 +77,7 @@ const handleClick = (e: MouseEvent) => {
 <template>
   <button
     :class="[
+      'button',
       'text-sm',
       'text-center',
       'rounded',
@@ -86,26 +87,26 @@ const handleClick = (e: MouseEvent) => {
       'justify-center',
       'p-0.5',
       // @ts-ignore
-      buttonTypeStyle[props.type],
+      buttonTypeStyle[type],
       // @ts-ignore
       buttonSizeStyle[formatSize].button,
-      props.isActiveAnimate && 'active:scale-105',
+      isActiveAnimate && 'active:scale-105',
     ]"
     @click="handleClick"
   >
     <!-- loading -->
-    <SVGICon v-if="props.loading" name="loading" class="w-2 h-2 animate-spin mr-1" />
+    <SVGICon v-if="loading" name="loading" class="w-2 h-2 animate-spin mr-1" />
     <!-- icon -->
     <SVGICon
-      v-if="props.iconName"
-      :name="props.iconName"
-      :color="props.iconColor"
+      v-if="iconName"
+      :name="iconName"
+      :color="iconColor"
       :class="[
         'm-auto',
         // @ts-ignore
         buttonSizeStyle[formatSize].icon,
       ]"
-      :fillClass="props.iconClass"
+      :fillClass="iconClass"
     />
     <!-- 文字按钮 -->
     <slot v-else />

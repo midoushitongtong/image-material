@@ -1,30 +1,25 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
-import type { PropType } from 'vue';
-import type { CategoryListItem } from '@/apis/category/types';
+import { computed, onMounted, ref, watch } from 'vue';
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import { useScroll } from '@vueuse/core';
 import Modal from '@/components/modal/Modal.vue';
 import MobileNavigationCategoryMenu from './MobileNavigationCategoryMenu.vue';
 import { useFonSize } from '@/hooks/use-font-size';
 import { scrollTo } from '@/utils/dom';
+import { useViewStore } from '@/store/resources/view';
 
-// define props
-const props = defineProps({
-  categoryList: {
-    type: Array as PropType<CategoryListItem[]>,
-    required: true,
-  },
-});
-
+// view store
+const viewStore = useViewStore();
+// category list
+const categoryList = computed(() => viewStore.homeViewData.categoryList);
+// image material search params
+const imageMaterialSearchParams = computed(() => viewStore.homeViewData.imageMaterialSearchParams);
 // slider style
 const sliderStyle = ref({
   transform: 'translateX(0px) translateY(0px)',
   width: '0px',
   height: '0px',
 });
-// 选中的下标
-const currentCategoryIndex = ref(0);
 // category ref
 const categoryRefList = ref<HTMLDivElement[]>([]);
 // category list ref
@@ -42,7 +37,10 @@ const refreshSliderStyle = () => {
     return;
   }
 
-  const rect = categoryRefList.value[currentCategoryIndex.value].getBoundingClientRect();
+  const rect =
+    categoryRefList.value[
+      categoryList.value.findIndex((item) => item.id === imageMaterialSearchParams.value.categoryId)
+    ].getBoundingClientRect();
 
   sliderStyle.value = {
     // 滑块的位置 = 列表横向滚动的距离 + 当前元素的 left - 列表的 padding
@@ -67,15 +65,24 @@ const setCategoryRef = (index: number, ref?: any) => {
 };
 
 // 更新当前下标
-const updateCurrentCategoryIndex = (index: number) => {
-  currentCategoryIndex.value = index;
+const updateCurrentCategoryId = (id: string) => {
+  viewStore.updateHomeViewData({
+    ...viewStore.homeViewData,
+    imageMaterialSearchParams: {
+      ...viewStore.homeViewData.imageMaterialSearchParams,
+      categoryId: id,
+    },
+  });
   visibleCategoryModal.value = false;
 };
 
 // 下标修改, 刷新 slider 样式
-watch(currentCategoryIndex, () => {
-  refreshSliderStyle();
-});
+watch(
+  () => imageMaterialSearchParams.value.categoryId,
+  () => {
+    refreshSliderStyle();
+  }
+);
 
 // fontSize 修改, 刷新 slider 样式
 watch(fontSize, () => {
@@ -100,7 +107,7 @@ onMounted(() => {
         class="relative flex items-center overflow-x-auto p-[10px] text-xs text-zinc-600"
       >
         <div
-          v-for="(item, index) of props.categoryList"
+          v-for="(item, index) of categoryList"
           :key="item.id"
           :ref="(ref) => setCategoryRef(index, ref)"
           :class="[
@@ -109,9 +116,9 @@ onMounted(() => {
             'py-0.5',
             'z-10',
             'duration-200',
-            currentCategoryIndex === index && 'text-zinc-100',
+            item.id === imageMaterialSearchParams.categoryId && 'text-zinc-100',
           ]"
-          @click="updateCurrentCategoryIndex(index)"
+          @click="updateCurrentCategoryId(item.id)"
         >
           {{ item.name }}
         </div>
@@ -131,11 +138,7 @@ onMounted(() => {
 
       <!-- 菜单 modal, 点击按钮弹出 -->
       <Modal v-model:visible="visibleCategoryModal">
-        <MobileNavigationCategoryMenu
-          :categoryList="props.categoryList"
-          :currentCategoryIndex="currentCategoryIndex"
-          @onCategoryListItemClick="updateCurrentCategoryIndex"
-        />
+        <MobileNavigationCategoryMenu @onCategoryListItemClick="updateCurrentCategoryId" />
       </Modal>
     </div>
   </div>

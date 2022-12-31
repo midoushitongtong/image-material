@@ -3,10 +3,11 @@ import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import Button from '@/components/button/Button.vue';
 import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
+import PCHeaderSearchHint from './PCHeaderSearchHint.vue';
 
 // define props
-const props = defineProps({
-  value: {
+defineProps({
+  searchKeyword: {
     type: String,
     required: true,
   },
@@ -14,7 +15,7 @@ const props = defineProps({
 
 // define emits
 const emits = defineEmits([
-  'update:value',
+  'update:searchKeyword',
   'onSubmitSearch',
   'onClearValue',
   'onFocusInput',
@@ -25,6 +26,8 @@ const emits = defineEmits([
 const containerRef = ref();
 // 是否显示 dropdown
 const visibleDropdown = ref(false);
+// 是否显示 hint
+const visibleSearchHint = ref(false);
 // 点击 container 之外的区域关闭 dropdown
 onClickOutside(containerRef, () => {
   visibleDropdown.value = false;
@@ -33,12 +36,15 @@ onClickOutside(containerRef, () => {
 // handle input
 const handleInputValue = (e: Event) => {
   // @ts-ignore
-  emits('update:value', e.target?.value);
+  const value = e.target?.value;
+  visibleSearchHint.value = !!value;
+  emits('update:searchKeyword', value);
 };
 
 // handle focus input
 const handleFocusInput = () => {
   visibleDropdown.value = true;
+  visibleSearchHint.value = true;
   emits('onFocusInput');
 };
 
@@ -49,8 +55,7 @@ const handleBlurInput = () => {
 
 // handle clear
 const handleClearValue = () => {
-  // @ts-ignore
-  emits('update:value', '');
+  emits('update:searchKeyword', '');
   emits('onClearValue');
 };
 
@@ -58,10 +63,16 @@ const handleClearValue = () => {
 const handleSubmitSearch = () => {
   emits('onSubmitSearch');
 };
+
+// handle search hint list item click
+const handleSearchHintListItemClick = (item: string) => {
+  visibleSearchHint.value = false;
+  emits('update:searchKeyword', item);
+};
 </script>
 
 <template>
-  <div class="relative mr-1 flex-1" ref="containerRef">
+  <div class="pc-header-search relative mr-1 flex-1" ref="containerRef">
     <div class="group p-0.5 rounded-xl border-white duration-500 hover:bg-red-100/40">
       <!-- 搜索图标 -->
       <SVGIcon
@@ -74,7 +85,7 @@ const handleSubmitSearch = () => {
         type="text"
         class="group-hover:bg-white dark:group-hover:bg-zinc-900 group-hover:border-zinc-200 dark:group-hover:border-zinc-700 block w-full h-[44px] pl-4 pr-9 outline-0 bg-zinc-100 dark:bg-zinc-800 caret-zinc-400 rounded-xl text-zinc-900 dark:text-zinc-200 tranking-wide text-sm font-semibold border border-solid border-zinc-100 dark:border-zinc-700 focus:border-red-300 duration-500"
         placeholder="搜索"
-        :value="props.value"
+        :value="searchKeyword"
         @input="handleInputValue"
         @keyup.enter="handleSubmitSearch"
         @focus="handleFocusInput"
@@ -82,7 +93,7 @@ const handleSubmitSearch = () => {
       />
       <!-- 删除按钮 -->
       <SVGIcon
-        v-show="props.value"
+        v-show="searchKeyword"
         name="input-delete"
         color="#707070"
         class="w-1.5 h-1.5 absolute top-[50%] right-7 translate-y-[-50%] duration-500 cursor-pointer"
@@ -107,7 +118,12 @@ const handleSubmitSearch = () => {
         v-if="visibleDropdown"
         class="max-h-[368px] z-20 overflow-y-auto text-sm bg-white dark:bg-zinc-800 absolute top-[57px] left-0.5 right-0.5 p-2 rounded border border-solid border-zinc-200 dark:border-zinc-600 duration-200 hover:shadow-lg"
       >
-        <slot name="dropdown" />
+        <!-- 搜索关键字提示 -->
+        <PCHeaderSearchHint
+          v-show="visibleSearchHint"
+          :searchKeyword="searchKeyword"
+          @itemClick="handleSearchHintListItemClick"
+        />
       </div>
     </transition>
   </div>

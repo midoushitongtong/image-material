@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="pc-floating-menu">
+  <div class="pc-home-floating-menu">
     <div class="fixed bottom-10 right-2">pc floating menu</div>
   </div>
 </template>

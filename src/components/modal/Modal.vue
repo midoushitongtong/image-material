@@ -34,7 +34,7 @@ watch(
       <!-- 蒙版 -->
       <transition name="fade">
         <div
-          v-if="props.visible"
+          v-if="visible"
           class="w-screen h-screen bg-zinc-900/60 fixed top-0 left-0 z-50"
           @click="emits('update:visible', false)"
         />
@@ -43,7 +43,7 @@ watch(
       <!-- 内容 -->
       <transition name="modal-down-up">
         <div
-          v-if="props.visible"
+          v-if="visible"
           v-bind="$attrs"
           class="w-screen bg-white dark:bg-zinc-900 fixed bottom-0 z-50"
         >

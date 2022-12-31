@@ -25,13 +25,13 @@ const menuList = [
 </script>
 
 <template>
-  <div>
+  <div class="pc-header-my">
     <Popover placement="bottomRight" class="my-popover">
       <div
         class="relative flex items-center p-0.5 rounded-sm cursor-pointer duration-200 outline-none dark:bg-zinc-900 hover:bg-zinc-100/60 dark:hover:bg-zinc-700"
       >
         <!-- 头像 -->
-        <img src="@/assets/images/logo.jpg" class="w-3 h-3 rounded-sm" />
+        <img v-imageLazyLoad src="@/assets/images/logo.jpg" class="w-3 h-3 rounded-sm" />
         <!-- 下箭头 -->
         <SVGIcon
           class="w-1.5 h-1.5 ml-0.5 duration-200"

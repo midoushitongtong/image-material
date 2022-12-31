@@ -25,7 +25,7 @@ const symbolId = computed(() => `#icon-${props.name}`);
 <template>
   <svg aria-hidden="true">
     <!-- 复制插件生成好的 svg 图标 -->
-    <use :href="symbolId" :class="props.fillClass" :fill="props.color" />
+    <use :href="symbolId" :class="fillClass" :fill="color" />
   </svg>
 </template>
 

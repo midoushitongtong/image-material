@@ -123,7 +123,7 @@ watch(visible, (newValue) => {
 </script>
 
 <template>
-  <div class="relative" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
+  <div class="popover relative" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
     <div class="trigger-container" ref="triggerContainerRef">
       <!-- 匿名插槽, 触发气泡显示的视图 -->
       <slot />

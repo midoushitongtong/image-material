@@ -1,25 +1,21 @@
 <script setup lang="ts">
-import type { CategoryListItem } from '@/apis/category/types';
-import { onMounted, ref, watch, type PropType } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import { useWindowSize } from '@vueuse/core';
+import { useViewStore } from '@/store/resources/view';
 
-// define props
-defineProps({
-  categoryList: {
-    type: Array as PropType<CategoryListItem[]>,
-    required: true,
-  },
-});
-
+// view store
+const viewStore = useViewStore();
+// category list
+const categoryList = computed(() => viewStore.homeViewData.categoryList);
+// image material search params
+const imageMaterialSearchParams = computed(() => viewStore.homeViewData.imageMaterialSearchParams);
 // ref
 const pcNavigationRef = ref();
 // window size
 const { width } = useWindowSize();
 // 分类列表高度
 const categoryListHeight = ref(0);
-// 选中的下标
-const currentCategoryIndex = ref(0);
 
 // 是否展开分类
 const isOpenCategory = ref(false);
@@ -31,13 +27,19 @@ const triggerIsOpenCategory = () => {
 
 // 刷新分类列表高度
 const refreshCategoryListHeight = () => {
-  const categoryList = pcNavigationRef.value.querySelector('.category-list') as HTMLDivElement;
-  categoryListHeight.value = categoryList.getBoundingClientRect().height;
+  const categoryElementList = pcNavigationRef.value.querySelector('.category-list') as HTMLDivElement;
+  categoryListHeight.value = categoryElementList.getBoundingClientRect().height;
 };
 
 // 更新当前下标
-const updateCurrentCategoryIndex = (index: number) => {
-  currentCategoryIndex.value = index;
+const updateCurrentCategoryId = (id: string) => {
+  viewStore.updateHomeViewData({
+    ...viewStore.homeViewData,
+    imageMaterialSearchParams: {
+      ...viewStore.homeViewData.imageMaterialSearchParams,
+      categoryId: id,
+    },
+  });
 };
 
 // watch
@@ -57,7 +59,7 @@ onMounted(() => {
     <div
       class="max-w-[900px] relative text-xs text-zinc-600 duration-300 mx-auto"
       :style="{
-        height: isOpenCategory ? `${categoryListHeight}px` : '56px',
+        height: isOpenCategory ? `${categoryListHeight}px` : '60px',
       }"
     >
       <!-- 箭头 -->
@@ -74,7 +76,7 @@ onMounted(() => {
       <!-- 菜单列表 -->
       <div class="category-list flex flex-wrap justify-center px-[50px] py-1">
         <div
-          v-for="(item, index) of categoryList"
+          v-for="item of categoryList"
           :key="item.id"
           :class="[
             'px-1.5',
@@ -90,9 +92,9 @@ onMounted(() => {
             'rounded',
             'mr-1',
             'mb-1',
-            currentCategoryIndex === index && 'bg-zinc-200 dark:bg-zinc-900',
+            item.id === imageMaterialSearchParams.categoryId && 'bg-zinc-200 dark:bg-zinc-900',
           ]"
-          @click="updateCurrentCategoryIndex(index)"
+          @click="updateCurrentCategoryId(item.id)"
         >
           {{ item.name }}
         </div>
@@ -100,3 +102,7 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+@import './PCNavigation.scss'; ;
+</style>

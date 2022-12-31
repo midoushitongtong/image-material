@@ -3,16 +3,7 @@ import { useRouter } from 'vue-router';
 import PCHeaderSearch from './PCHeaderSearch.vue';
 import PCHeaderTheme from './PCHeaderTheme.vue';
 import PCHeaderMy from './PCHeaderMy.vue';
-import { ref, type PropType } from 'vue';
-import type { CategoryListItem } from '@/apis/category/types';
-
-// define props
-defineProps({
-  categoryList: {
-    type: Array as PropType<CategoryListItem[]>,
-    required: true,
-  },
-});
+import { ref } from 'vue';
 
 // router
 const router = useRouter();
@@ -55,20 +46,19 @@ const handleBlurInput = () => {
       <div class="flex items-center">
         <!-- logo -->
         <img
+          v-imageLazyLoad
           src="@/assets/images/logo.jpg"
           class="rounded-sm w-auto h-4 cursor-pointer mr-2"
           @click="toHome"
         />
         <!-- search -->
         <PCHeaderSearch
-          v-model:value="searchKeyword"
+          v-model:searchKeyword="searchKeyword"
           @onSubmitSearch="handleSubmitSearch"
           @onClearValue="handleClearValue"
           @onFocusInput="handleFocusInput"
           @onBlurInput="handleBlurInput"
-        >
-          <template #dropdown>dropdown</template>
-        </PCHeaderSearch>
+        />
         <!-- theme -->
         <PCHeaderTheme />
         <!-- my -->
