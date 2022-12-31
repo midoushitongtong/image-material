@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { buttonSizeStyle, buttonTypeStyle } from './data';
-import SVGICon from '@/components/svg-icon/SVGIcon.vue';
+import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 
 // define props
 const props = defineProps({
@@ -95,9 +95,9 @@ const handleClick = (e: MouseEvent) => {
     @click="handleClick"
   >
     <!-- loading -->
-    <SVGICon v-if="loading" name="loading" class="w-2 h-2 animate-spin mr-1" />
+    <SVGIcon v-if="loading" name="loading" class="w-2 h-2 animate-spin mr-1" />
     <!-- icon -->
-    <SVGICon
+    <SVGIcon
       v-if="iconName"
       :name="iconName"
       :color="iconColor"

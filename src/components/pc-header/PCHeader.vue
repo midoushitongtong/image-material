@@ -19,22 +19,7 @@ const toHome = () => {
 
 // handle submit search
 const handleSubmitSearch = () => {
-  console.log('处理提交搜索');
-};
-
-// handle clear value
-const handleClearValue = () => {
-  console.log('处理 clear value');
-};
-
-// handle focus input
-const handleFocusInput = () => {
-  console.log('处理 focus input');
-};
-
-// handle focus input
-const handleBlurInput = () => {
-  console.log('处理 blur input');
+  console.log('处理提交搜索', searchKeyword.value);
 };
 </script>
 
@@ -52,13 +37,7 @@ const handleBlurInput = () => {
           @click="toHome"
         />
         <!-- search -->
-        <PCHeaderSearch
-          v-model:searchKeyword="searchKeyword"
-          @onSubmitSearch="handleSubmitSearch"
-          @onClearValue="handleClearValue"
-          @onFocusInput="handleFocusInput"
-          @onBlurInput="handleBlurInput"
-        />
+        <PCHeaderSearch v-model:searchKeyword="searchKeyword" @onSubmitSearch="handleSubmitSearch" />
         <!-- theme -->
         <PCHeaderTheme />
         <!-- my -->

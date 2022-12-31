@@ -21,6 +21,7 @@ const useAppStore = defineStore('app', () => {
 
   const updateThemeType = (themeType_: typeof themeType.value) => {
     themeType.value = themeType_;
+    // 保存数据到 localStorage 中
     localStorage.setItem('themeType', themeType_);
   };
 

@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import Button from '@/components/button/Button.vue';
-import { ref } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import PCHeaderSearchHint from './PCHeaderSearchHint.vue';
+import PCHeaderSearchHistory from './PCHeaderSearchHistory.vue';
+import { useSearchHistoryStore } from '@/store/resources/search-history';
+import type { SearchHintListItem } from '@/apis/search/types';
 
 // define props
-defineProps({
+const props = defineProps({
   searchKeyword: {
     type: String,
     required: true,
@@ -14,20 +17,22 @@ defineProps({
 });
 
 // define emits
-const emits = defineEmits([
-  'update:searchKeyword',
-  'onSubmitSearch',
-  'onClearValue',
-  'onFocusInput',
-  'onBlurInput',
-]);
+const emits = defineEmits(['update:searchKeyword', 'onSubmitSearch']);
 
+// search hint list
+const searchHintList = ref<SearchHintListItem[]>([]);
+// search histor store
+const searchHistoryStore = useSearchHistoryStore();
 // container ref
 const containerRef = ref();
 // 是否显示 dropdown
 const visibleDropdown = ref(false);
 // 是否显示 hint
 const visibleSearchHint = ref(false);
+// 是否显示 hint (searchHintList 长度大于 0 才显示)
+const formatVisibleSearchHint = computed(() => {
+  return visibleSearchHint.value && searchHintList.value.length > 0;
+});
 // 点击 container 之外的区域关闭 dropdown
 onClickOutside(containerRef, () => {
   visibleDropdown.value = false;
@@ -37,38 +42,56 @@ onClickOutside(containerRef, () => {
 const handleInputValue = (e: Event) => {
   // @ts-ignore
   const value = e.target?.value;
-  visibleSearchHint.value = !!value;
   emits('update:searchKeyword', value);
 };
 
-// handle focus input
-const handleFocusInput = () => {
+// handle focus and click input
+const handleFocusAndClickInput = () => {
   visibleDropdown.value = true;
-  visibleSearchHint.value = true;
-  emits('onFocusInput');
-};
-
-// handle blur input
-const handleBlurInput = () => {
-  emits('onBlurInput');
+  visibleSearchHint.value = !!props.searchKeyword;
 };
 
 // handle clear
 const handleClearValue = () => {
   emits('update:searchKeyword', '');
-  emits('onClearValue');
 };
 
 // handle submit search
 const handleSubmitSearch = () => {
+  if (props.searchKeyword) {
+    searchHistoryStore.addSearchHistory(props.searchKeyword);
+  }
+  visibleDropdown.value = false;
   emits('onSubmitSearch');
 };
 
 // handle search hint list item click
 const handleSearchHintListItemClick = (item: string) => {
-  visibleSearchHint.value = false;
   emits('update:searchKeyword', item);
+  nextTick(() => {
+    // 加 nextTick 等 update:searchKeyword 执行完成
+    handleSubmitSearch();
+  });
 };
+
+// handle search history item click
+const handleSearchHistoryItemClick = (item: string) => {
+  emits('update:searchKeyword', item);
+  nextTick(() => {
+    // 加 nextTick 等 update:searchKeyword 执行完成
+    handleSubmitSearch();
+    // 加 nextTick 是因为要等 watch 的逻辑先执行
+    visibleSearchHint.value = false;
+  });
+};
+
+// 监听 serchKeyword 更新 visibleSearchHint
+watch(
+  () => props.searchKeyword,
+  (newValue) => {
+    visibleSearchHint.value = !!newValue;
+  }
+);
 </script>
 
 <template>
@@ -88,8 +111,8 @@ const handleSearchHintListItemClick = (item: string) => {
         :value="searchKeyword"
         @input="handleInputValue"
         @keyup.enter="handleSubmitSearch"
-        @focus="handleFocusInput"
-        @blur="handleBlurInput"
+        @focus="handleFocusAndClickInput"
+        @click="handleFocusAndClickInput"
       />
       <!-- 删除按钮 -->
       <SVGIcon
@@ -115,14 +138,20 @@ const handleSearchHintListItemClick = (item: string) => {
     <!-- 下拉区域 -->
     <transition name="slide">
       <div
-        v-if="visibleDropdown"
+        v-show="visibleDropdown"
         class="max-h-[368px] z-20 overflow-y-auto text-sm bg-white dark:bg-zinc-800 absolute top-[57px] left-0.5 right-0.5 p-2 rounded border border-solid border-zinc-200 dark:border-zinc-600 duration-200 hover:shadow-lg"
       >
         <!-- 搜索关键字提示 -->
         <PCHeaderSearchHint
-          v-show="visibleSearchHint"
+          v-show="formatVisibleSearchHint"
+          v-model:searchHintList="searchHintList"
           :searchKeyword="searchKeyword"
           @itemClick="handleSearchHintListItemClick"
+        />
+        <!-- 最近搜索 -->
+        <PCHeaderSearchHistory
+          v-show="!formatVisibleSearchHint"
+          @itemClick="handleSearchHistoryItemClick"
         />
       </div>
     </transition>
