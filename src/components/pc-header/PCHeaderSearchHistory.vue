@@ -2,6 +2,7 @@
 import { useSearchHistoryStore } from '@/store/resources/search-history';
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import { computed } from 'vue';
+import { showConfirmModal } from '@/utils/confirm-modal';
 
 // define emits
 const emits = defineEmits(['itemClick']);
@@ -12,8 +13,14 @@ const searchHistoryStore = useSearchHistoryStore();
 const searchHistoryList = computed(() => searchHistoryStore.searchHistoryList);
 
 // handle delete all item
-const handleDeleteAllItem = () => {
-  searchHistoryStore.deleteAllSearchHistory();
+const handleDeleteAllItem = async () => {
+  await showConfirmModal({
+    title: '提示',
+    content: '确定删除所有搜索历史记录?',
+    onConfirm: () => {
+      searchHistoryStore.deleteAllSearchHistory();
+    },
+  });
 };
 
 // handle delete item
