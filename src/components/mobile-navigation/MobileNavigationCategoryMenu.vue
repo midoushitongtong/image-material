@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { useViewStore } from '@/store/resources/view';
-import { computed } from 'vue';
+import type { CategoryListItem } from '@/apis/category/types';
+
+// props
+type Props = {
+  categoryList: CategoryListItem[];
+  activeCategoryId: string;
+};
+defineProps<Props>();
 
 // define emits
-const emits = defineEmits(['onCategoryListItemClick']);
-
-// view store
-const viewStore = useViewStore();
-// category list
-const categoryList = computed(() => viewStore.homeViewData.categoryList);
-// image material search params
-const imageMaterialSearchParams = computed(() => viewStore.homeViewData.imageMaterialSearchParams);
+const emits = defineEmits<{
+  // eslint-disable-next-line no-unused-vars
+  (name: 'onCategoryListItemClick', id: string): void;
+}>();
 </script>
 
 <template>
@@ -28,8 +30,7 @@ const imageMaterialSearchParams = computed(() => viewStore.homeViewData.imageMat
           'duration-100',
           'active:text-zinc-100',
           'active:bg-zinc-900',
-          item.id === imageMaterialSearchParams.categoryId &&
-            'font-bold text-zinc-100 bg-zinc-900 dark:bg-zinc-800',
+          item.id === activeCategoryId && 'font-bold text-zinc-100 bg-zinc-900 dark:bg-zinc-800',
         ]"
         @click="emits('onCategoryListItemClick', item.id)"
       >

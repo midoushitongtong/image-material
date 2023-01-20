@@ -1,26 +1,22 @@
 <script setup lang="ts">
-import { ref, type PropType } from 'vue';
 import { getSearchHintList } from '@/apis/search';
 import type { SearchHintListItem } from '@/apis/search/types';
 import { watchThrottled } from '@vueuse/core';
 
 // define props
-const props = defineProps({
-  searchKeyword: {
-    type: String,
-    required: true,
-  },
-  searchHintList: {
-    type: Object as PropType<SearchHintListItem[]>,
-    required: true,
-  },
-});
+type Props = {
+  searchKeyword: string;
+  searchHintList: SearchHintListItem[];
+};
+const props = defineProps<Props>();
 
 // define emits
-const emits = defineEmits(['itemClick', 'update:searchHintList']);
-
-// init data loading
-const initDataLoading = ref(true);
+const emits = defineEmits<{
+  // eslint-disable-next-line no-unused-vars
+  (name: 'itemClick', keyword: string): void;
+  // eslint-disable-next-line no-unused-vars
+  (name: 'update:searchHintList', searchHintList: SearchHintListItem[]): void;
+}>();
 
 // 刷新搜索提示
 const refreshData = async () => {
@@ -29,7 +25,6 @@ const refreshData = async () => {
     return;
   }
   try {
-    initDataLoading.value = true;
     const result = await getSearchHintList({
       searchKeyword: props.searchKeyword,
     });

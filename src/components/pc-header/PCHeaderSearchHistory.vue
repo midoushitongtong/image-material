@@ -2,10 +2,13 @@
 import { useSearchHistoryStore } from '@/store/resources/search-history';
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import { computed } from 'vue';
-import { showConfirmModal } from '@/utils/confirm-modal';
+import { showConfirmModal } from '@/components/confirm-modal';
 
 // define emits
-const emits = defineEmits(['itemClick']);
+const emits = defineEmits<{
+  // eslint-disable-next-line no-unused-vars
+  (name: 'itemClick', keyword: string): void;
+}>();
 
 // search histor store
 const searchHistoryStore = useSearchHistoryStore();
@@ -35,7 +38,7 @@ const handleItemClick = (item: string) => {
 </script>
 
 <template>
-  <div class="pc-header-search-history">
+  <div v-if="searchHistoryList.length > 0" class="pc-header-search-history mb-1.5">
     <div class="flex items-center text-xs text-zinc-400">
       <span>最新搜索</span>
       <SVGIcon

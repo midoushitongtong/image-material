@@ -2,15 +2,16 @@
 import { watch } from 'vue';
 
 // define props
-const props = defineProps({
-  visible: {
-    type: Boolean,
-    required: true,
-  },
-});
+type Props = {
+  visible: boolean;
+};
+const props = defineProps<Props>();
 
 // define emits
-const emits = defineEmits(['update:visible']);
+const emits = defineEmits<{
+  // eslint-disable-next-line no-unused-vars
+  (name: 'update:visible', visible: boolean): void;
+}>();
 
 // modal 显示锁定滚动条, modal 隐藏解锁滚动条
 watch(

@@ -1,40 +1,29 @@
 <script setup lang="ts">
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import { useWindowSize } from '@vueuse/core';
-import { computed, ref, type PropType, watch, nextTick } from 'vue';
+import { computed, ref, watch, nextTick } from 'vue';
 import { throttle } from 'lodash-es';
 
 // define props
-const props = defineProps({
+export type Props = {
   // 数据源
-  dataSource: {
-    type: Array as PropType<any[]>,
-    required: true,
-  },
+  dataSource: any[];
   // 唯一标识 key
-  itemKey: {
-    type: String,
-  },
+  itemKey?: string;
   // 列数
-  columnNumber: {
-    type: Number,
-    default: 2,
-  },
+  columnNumber?: number;
   // 列间距
-  columnSpacing: {
-    type: Number,
-    default: 20,
-  },
+  columnSpacing?: number;
   // 行间距
-  rowSpacing: {
-    type: Number,
-    default: 20,
-  },
+  rowSpacing?: number;
   // 是否需要进行图片预读取
-  imagePreReading: {
-    type: Boolean,
-    default: true,
-  },
+  imagePreReading?: boolean;
+};
+const props = withDefaults(defineProps<Props>(), {
+  columnNumber: 2,
+  columnSpacing: 20,
+  rowSpacing: 20,
+  imagePreReading: true,
 });
 
 // ref

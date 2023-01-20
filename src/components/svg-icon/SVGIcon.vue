@@ -2,21 +2,15 @@
 import { computed } from 'vue';
 
 // define props
-const props = defineProps({
+type Props = {
   // 显示的 svg
-  name: {
-    type: String,
-    required: true,
-  },
+  name: string;
   // svg 图标的颜色
-  color: {
-    type: String,
-  },
+  color?: string;
   // tailwind 指定 svg 颜色的类名
-  fillClass: {
-    type: String,
-  },
-});
+  fillClass?: string;
+};
+const props = defineProps<Props>();
 
 // 真实显示的 svg 图标
 const symbolId = computed(() => `#icon-${props.name}`);

@@ -3,19 +3,25 @@ import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import { useAppStore } from '@/store/resources/app';
 import MobileHome from './MobileHome.vue';
 import PCHome from './PCHome.vue';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, provide, ref } from 'vue';
 import { getCategoryList } from '@/apis/category';
 import { ALL_CATEGORY_LIST_ITEM } from '@/constants';
-import { useViewStore } from '@/store/resources/view';
+import type { CategoryListItem } from '@/apis/category/types';
+import type { ImageMaterialSearchParams } from '@/components/image-material-list/ImageMaterialList.vue';
 
 // app store
 const appStore = useAppStore();
-// view store
-const viewStore = useViewStore();
 // device type
 const deviceType = computed(() => appStore.deviceType);
 // init data loading
 const initDataLoading = ref(true);
+// categoty list
+const categoryList = ref<CategoryListItem[]>([]);
+// image material search params
+const imageMaterialSearchParams = ref<ImageMaterialSearchParams>({
+  categoryId: 'all',
+  keyword: undefined,
+});
 
 // init data
 const initData = async () => {
@@ -23,10 +29,7 @@ const initData = async () => {
     initDataLoading.value = true;
 
     const result = await getCategoryList();
-    viewStore.updateHomeViewData({
-      ...viewStore.homeViewData,
-      categoryList: [ALL_CATEGORY_LIST_ITEM, ...result.data],
-    });
+    categoryList.value = [ALL_CATEGORY_LIST_ITEM, ...result.data];
 
     initDataLoading.value = false;
   } catch (error) {
@@ -38,6 +41,10 @@ const initData = async () => {
 onMounted(() => {
   initData();
 });
+
+// provide
+provide('categoryList', categoryList);
+provide('imageMaterialSearchParams', imageMaterialSearchParams);
 </script>
 
 <template>

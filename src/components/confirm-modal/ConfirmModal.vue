@@ -3,45 +3,32 @@ import { onMounted, ref, computed } from 'vue';
 import Button from '@/components/button/Button.vue';
 
 // define props
-const props = defineProps({
+type Props = {
   // 标题
-  title: {
-    type: String,
-  },
+  title?: string;
   // 内容
-  content: {
-    type: String,
-    required: true,
-  },
+  content: string;
   // 取消按钮文本
-  cancelText: {
-    type: String,
-    default: '取消',
-  },
+  cancelText?: string;
   // 确定按钮文本
-  confirmText: {
-    type: String,
-    default: '确定',
-  },
+  confirmText?: string;
   // modal 关闭
-  onClose: {
-    type: Function,
-  },
+  onClose?: Function;
   // 取消按钮事件
-  onCancel: {
-    type: Function,
-  },
+  onCancel?: Function;
   // 确定按钮事件
-  onConfirm: {
-    type: Function,
-  },
+  onConfirm?: Function;
+};
+const props = withDefaults(defineProps<Props>(), {
+  cancelText: '取消',
+  confirmText: '确定',
 });
 
 // 动画时长
-const transactionDuration = 300;
+const transitionDuration = 300;
 // css 动画时长
-const cssTransactionDuration = computed(() => {
-  return `${transactionDuration / 1000}s`;
+const cssTransitionDuration = computed(() => {
+  return `${transitionDuration / 1000}s`;
 });
 // visible
 const visible = ref(false);
@@ -59,7 +46,7 @@ const closeModal = () => {
     if (props.onClose) {
       props.onClose();
     }
-  }, transactionDuration);
+  }, transitionDuration);
 };
 
 // handle cancel
@@ -131,7 +118,7 @@ onMounted(() => {
 // fade 动画
 .fade-enter-active,
 .fade-leave-active {
-  transition: all v-bind(cssTransactionDuration);
+  transition: all v-bind(cssTransitionDuration);
 }
 // 准备进入, 离开完成
 .fade-enter-from,
@@ -142,7 +129,7 @@ onMounted(() => {
 // modal 动画
 .modal-down-up-enter-active,
 .modal-down-up-leave-active {
-  transition: all v-bind(cssTransactionDuration);
+  transition: all v-bind(cssTransitionDuration);
 }
 // 准备进入, 离开完成
 .modal-down-up-enter-from,

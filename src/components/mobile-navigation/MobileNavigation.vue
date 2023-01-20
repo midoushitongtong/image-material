@@ -1,19 +1,26 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import { useScroll } from '@vueuse/core';
 import Modal from '@/components/modal/Modal.vue';
 import MobileNavigationCategoryMenu from './MobileNavigationCategoryMenu.vue';
 import { useFonSize } from '@/hooks/use-font-size';
 import { scrollTo } from '@/utils/dom';
-import { useViewStore } from '@/store/resources/view';
+import type { CategoryListItem } from '@/apis/category/types';
 
-// view store
-const viewStore = useViewStore();
-// category list
-const categoryList = computed(() => viewStore.homeViewData.categoryList);
-// image material search params
-const imageMaterialSearchParams = computed(() => viewStore.homeViewData.imageMaterialSearchParams);
+// props
+type Props = {
+  categoryList: CategoryListItem[];
+  activeCategoryId: string;
+};
+const props = defineProps<Props>();
+
+// define emits
+const emits = defineEmits<{
+  // eslint-disable-next-line no-unused-vars
+  (name: 'onCategoryListItemClick', id: string): void;
+}>();
+
 // slider style
 const sliderStyle = ref({
   transform: 'translateX(0px) translateY(0px)',
@@ -39,7 +46,7 @@ const refreshSliderStyle = () => {
 
   const rect =
     categoryRefList.value[
-      categoryList.value.findIndex((item) => item.id === imageMaterialSearchParams.value.categoryId)
+      props.categoryList.findIndex((item) => item.id === props.activeCategoryId)
     ].getBoundingClientRect();
 
   sliderStyle.value = {
@@ -66,19 +73,13 @@ const setCategoryRef = (index: number, ref?: any) => {
 
 // 更新当前下标
 const updateCurrentCategoryId = (id: string) => {
-  viewStore.updateHomeViewData({
-    ...viewStore.homeViewData,
-    imageMaterialSearchParams: {
-      ...viewStore.homeViewData.imageMaterialSearchParams,
-      categoryId: id,
-    },
-  });
+  emits('onCategoryListItemClick', id);
   visibleCategoryModal.value = false;
 };
 
 // 下标修改, 刷新 slider 样式
 watch(
-  () => imageMaterialSearchParams.value.categoryId,
+  () => props.activeCategoryId,
   () => {
     refreshSliderStyle();
   }
@@ -116,7 +117,7 @@ onMounted(() => {
             'py-0.5',
             'z-10',
             'duration-200',
-            item.id === imageMaterialSearchParams.categoryId && 'text-zinc-100',
+            item.id === activeCategoryId && 'text-zinc-100',
           ]"
           @click="updateCurrentCategoryId(item.id)"
         >
@@ -138,7 +139,11 @@ onMounted(() => {
 
       <!-- 菜单 modal, 点击按钮弹出 -->
       <Modal v-model:visible="visibleCategoryModal">
-        <MobileNavigationCategoryMenu @onCategoryListItemClick="updateCurrentCategoryId" />
+        <MobileNavigationCategoryMenu
+          :categoryList="categoryList"
+          :activeCategoryId="activeCategoryId"
+          @onCategoryListItemClick="updateCurrentCategoryId"
+        />
       </Modal>
     </div>
   </div>

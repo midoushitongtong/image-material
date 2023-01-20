@@ -4,7 +4,8 @@ import type { ImageMaterialListItem } from './types';
 export const getImageMaterialList = async (params: {
   pageNumber: number;
   pageSize: number;
-  categoryId: string;
+  categoryId?: string;
+  keyword?: string;
 }): Promise<{
   status: string;
   data: ImageMaterialListItem[];

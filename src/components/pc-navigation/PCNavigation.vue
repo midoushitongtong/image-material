@@ -1,15 +1,22 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import { useWindowSize } from '@vueuse/core';
-import { useViewStore } from '@/store/resources/view';
+import type { CategoryListItem } from '@/apis/category/types';
 
-// view store
-const viewStore = useViewStore();
-// category list
-const categoryList = computed(() => viewStore.homeViewData.categoryList);
-// image material search params
-const imageMaterialSearchParams = computed(() => viewStore.homeViewData.imageMaterialSearchParams);
+// props
+type Props = {
+  categoryList: CategoryListItem[];
+  activeCategoryId: string;
+};
+defineProps<Props>();
+
+// define emits
+const emits = defineEmits<{
+  // eslint-disable-next-line no-unused-vars
+  (name: 'onCategoryListItemClick', id: string): void;
+}>();
+
 // ref
 const pcNavigationRef = ref();
 // window size
@@ -33,13 +40,7 @@ const refreshCategoryListHeight = () => {
 
 // 更新当前下标
 const updateCurrentCategoryId = (id: string) => {
-  viewStore.updateHomeViewData({
-    ...viewStore.homeViewData,
-    imageMaterialSearchParams: {
-      ...viewStore.homeViewData.imageMaterialSearchParams,
-      categoryId: id,
-    },
-  });
+  emits('onCategoryListItemClick', id);
 };
 
 // watch
@@ -92,7 +93,7 @@ onMounted(() => {
             'rounded',
             'mr-1',
             'mb-1',
-            item.id === imageMaterialSearchParams.categoryId && 'bg-zinc-200 dark:bg-zinc-900',
+            item.id === activeCategoryId && 'bg-zinc-200 dark:bg-zinc-900',
           ]"
           @click="updateCurrentCategoryId(item.id)"
         >

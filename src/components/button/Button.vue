@@ -4,59 +4,34 @@ import { buttonSizeStyle, buttonTypeStyle } from './data';
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 
 // define props
-const props = defineProps({
+type Props = {
   // icon 图标
-  iconName: {
-    type: String,
-  },
+  iconName?: string;
   // icon 颜色,
-  iconColor: {
-    type: String,
-  },
+  iconColor?: string;
   // icon 样式
-  iconClass: {
-    type: String,
-  },
+  iconClass?: string;
   // 按钮的风格
-  type: {
-    type: String,
-    default: 'main',
-    validator: (value: string) => {
-      const keys = Object.keys(buttonTypeStyle);
-      const result = keys.includes(value);
-      if (!result) {
-        throw new Error(`type 参数有误, 必须是 ${keys.join(', ')} 的其中一种`);
-      }
-      return result;
-    },
-  },
+  type?: keyof typeof buttonTypeStyle;
   // 按钮的大小
-  size: {
-    type: String,
-    default: 'default',
-    validator: (value: string) => {
-      const keys = Object.keys(buttonSizeStyle).filter((item) => !item.includes('icon'));
-      const result = keys.includes(value);
-      if (!result) {
-        throw new Error(`size 参数有误, 必须是 ${keys.join(', ')} 的其中一种`);
-      }
-      return result;
-    },
-  },
+  size?: 'default' | 'small';
   // 按钮点击时是否需要动画
-  isActiveAnimate: {
-    type: Boolean,
-    default: true,
-  },
+  isActiveAnimate?: boolean;
   // 按钮加载状态
-  loading: {
-    type: Boolean,
-    default: false,
-  },
+  loading?: boolean;
+};
+const props = withDefaults(defineProps<Props>(), {
+  type: 'main',
+  size: 'default',
+  isActiveAnimate: false,
+  loading: false,
 });
 
 // define emits
-const emits = defineEmits(['click']);
+const emits = defineEmits<{
+  // eslint-disable-next-line no-unused-vars
+  (name: 'click', event: MouseEvent): void;
+}>();
 
 // 如果是 icon 按钮, 加上 size 前缀
 // 传递了 iconName 参数, 就可以认为这是一个 icon 按钮

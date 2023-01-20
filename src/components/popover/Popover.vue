@@ -7,22 +7,14 @@ import {
   placementBottomLeft,
   placementBottomCenter,
   placementBottomRight,
-  placementList,
 } from './data';
 
 // define props
-const props = defineProps({
-  placement: {
-    type: String,
-    default: placementTopCenter,
-    validator: (value: string) => {
-      const result = placementList.includes(value);
-      if (!result) {
-        throw new Error(`placement 参数有误, 必须是 ${placementList.join(', ')} 中的其中一种`);
-      }
-      return result;
-    },
-  },
+type Props = {
+  placement?: string;
+};
+const props = withDefaults(defineProps<Props>(), {
+  placement: placementTopCenter,
 });
 
 // 延迟隐藏气泡定时器

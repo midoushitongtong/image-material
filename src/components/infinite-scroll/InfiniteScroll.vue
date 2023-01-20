@@ -4,21 +4,23 @@ import { useIntersectionObserver } from '@vueuse/core';
 import { ref, watch } from 'vue';
 
 // define props
-const props = defineProps({
+type Props = {
   // 是否处于加载状态
-  loading: {
-    type: Boolean,
-    required: true,
-  },
+  loading: boolean;
   // 数据是否全部加载完成
-  isFinished: {
-    type: Boolean,
-    default: false,
-  },
+  isFinished?: boolean;
+};
+const props = withDefaults(defineProps<Props>(), {
+  isFinished: false,
 });
 
 // define emits
-const emits = defineEmits(['onLoad', 'update:loading']);
+const emits = defineEmits<{
+  // eslint-disable-next-line no-unused-vars
+  (name: 'onLoad'): void;
+  // eslint-disable-next-line no-unused-vars
+  (name: 'update:loading'): void;
+}>();
 
 // 滚动的元素
 const loadingRef = ref(null);

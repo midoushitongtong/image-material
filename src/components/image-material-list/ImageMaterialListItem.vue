@@ -1,20 +1,18 @@
 <script setup lang="ts">
 import Button from '@/components/button/Button.vue';
 import type { ImageMaterialListItem } from '@/apis/imater-material/types';
-import { computed, type PropType } from 'vue';
+import { computed } from 'vue';
 import { randomColor } from '@/utils/random';
+// @ts-ignore
+import FileSaver from 'file-saver';
+import { showMessageTooltip } from '../message-tooltip';
 
 // define props
-const props = defineProps({
-  imageMaterialListItem: {
-    type: Object as PropType<ImageMaterialListItem>,
-    required: true,
-  },
-  containerWidth: {
-    type: Number,
-    required: true,
-  },
-});
+type Props = {
+  imageMaterialListItem: ImageMaterialListItem;
+  containerWidth: number;
+};
+const props = defineProps<Props>();
 
 // 图片布局
 const imageLayout = computed(() => {
@@ -29,6 +27,20 @@ const imageLayout = computed(() => {
     imageHeight: height ? imageHeight + 'px' : 'auto',
   };
 });
+
+// 下载
+const handleDownload = async () => {
+  showMessageTooltip({
+    type: 'success',
+    content: '正在准备下载图片...',
+    duration: 3000,
+  });
+
+  // 延迟一段时间执行, 先让 message tooltip 展示给用户看一下先
+  setTimeout(() => {
+    FileSaver.saveAs(props.imageMaterialListItem.photoDownLink);
+  }, 500);
+};
 </script>
 
 <template>
@@ -65,6 +77,7 @@ const imageLayout = computed(() => {
           iconName="download"
           size="small"
           iconClass="fill-zinc-900 dark:fill-zinc-200"
+          @click="handleDownload"
         />
         <!-- 全屏 -->
         <Button

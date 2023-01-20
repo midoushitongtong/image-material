@@ -2,25 +2,23 @@
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import { getImageMaterialList } from '@/apis/imater-material';
 import type { ImageMaterialListItem } from '@/apis/imater-material/types';
-import { computed, onMounted, ref, watch, type PropType } from 'vue';
-import Waterfall from '@/components/waterfall/Waterfall.vue';
+import { onMounted, ref, watch } from 'vue';
+import Waterfall, { type Props as WaterfallProps } from '@/components/waterfall/Waterfall.vue';
 import ImageMaterialListItem_ from './ImageMaterialListItem.vue';
 import InfiniteScroll from '@/components/infinite-scroll/InfiniteScroll.vue';
-import { useViewStore } from '@/store/resources/view';
+
+export type ImageMaterialSearchParams = {
+  categoryId: string;
+  keyword?: string;
+};
 
 // define props
-defineProps({
-  waterfallOptions: {
-    type: Object as PropType<object>,
-    requred: false,
-    default: () => {},
-  },
-});
+type Props = {
+  waterfallOptions?: Partial<WaterfallProps>;
+  imageMaterialSearchParams: ImageMaterialSearchParams;
+};
+const props = defineProps<Props>();
 
-// view store
-const viewStore = useViewStore();
-// image material search params
-const imageMaterialSearchParams = computed(() => viewStore.homeViewData.imageMaterialSearchParams);
 // init data loading
 const initDataLoading = ref(true);
 // pagination
@@ -49,7 +47,7 @@ const loadData = async () => {
     const result = await getImageMaterialList({
       pageNumber: pagination.value.pageNumber,
       pageSize: pagination.value.pageSize,
-      categoryId: imageMaterialSearchParams.value.categoryId,
+      ...props.imageMaterialSearchParams,
     });
     if (pagination.value.pageNumber === 1) {
       // 首次加载，直接覆盖
@@ -92,9 +90,15 @@ const loadMoreData = async () => {
 };
 
 // 搜索参数发生变化，刷新数据
-watch(imageMaterialSearchParams, () => {
-  initData();
-});
+watch(
+  () => props.imageMaterialSearchParams,
+  () => {
+    initData();
+  },
+  {
+    deep: true,
+  }
+);
 
 // on mounted
 onMounted(() => {

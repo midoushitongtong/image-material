@@ -5,19 +5,23 @@ import { computed, nextTick, ref, watch } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import PCHeaderSearchHint from './PCHeaderSearchHint.vue';
 import PCHeaderSearchHistory from './PCHeaderSearchHistory.vue';
+import PCHeaderSearchHotCategory from './PCHeaderSearchHotCategory.vue';
 import { useSearchHistoryStore } from '@/store/resources/search-history';
 import type { SearchHintListItem } from '@/apis/search/types';
 
 // define props
-const props = defineProps({
-  searchKeyword: {
-    type: String,
-    required: true,
-  },
-});
+type Props = {
+  searchKeyword: string;
+};
+const props = defineProps<Props>();
 
 // define emits
-const emits = defineEmits(['update:searchKeyword', 'onSubmitSearch']);
+const emits = defineEmits<{
+  // eslint-disable-next-line no-unused-vars
+  (name: 'update:searchKeyword', keyword: string): void;
+  // eslint-disable-next-line no-unused-vars
+  (name: 'onSubmitSearch'): void;
+}>();
 
 // search hint list
 const searchHintList = ref<SearchHintListItem[]>([]);
@@ -43,6 +47,7 @@ const handleInputValue = (e: Event) => {
   // @ts-ignore
   const value = e.target?.value;
   emits('update:searchKeyword', value);
+  visibleDropdown.value = true;
 };
 
 // handle focus and click input
@@ -62,7 +67,10 @@ const handleSubmitSearch = () => {
     searchHistoryStore.addSearchHistory(props.searchKeyword);
   }
   visibleDropdown.value = false;
-  emits('onSubmitSearch');
+  // 等待 dropdown 隐藏动画执行完成
+  setTimeout(() => {
+    emits('onSubmitSearch');
+  }, 300);
 };
 
 // handle search hint list item click
@@ -128,9 +136,9 @@ watch(
       />
       <!-- 搜索按钮 -->
       <Button
-        icon-name="search"
+        iconName="search"
         iconColor="#fff"
-        class="group-hover:opacity-100 opacity-0 absolute top-[50%] translate-y-[-50%] right-1 rounded-full duration-500"
+        class="group-hover:opacity-100 opacity-100 absolute top-[50%] translate-y-[-50%] right-[7px] rounded-full duration-500"
         @click="handleSubmitSearch"
       />
     </div>
@@ -153,6 +161,8 @@ watch(
           v-show="!formatVisibleSearchHint"
           @itemClick="handleSearchHistoryItemClick"
         />
+        <!-- 热门主题 -->
+        <PCHeaderSearchHotCategory />
       </div>
     </transition>
   </div>

@@ -5,6 +5,12 @@ import PCHeaderTheme from './PCHeaderTheme.vue';
 import PCHeaderMy from './PCHeaderMy.vue';
 import { ref } from 'vue';
 
+// emits
+const emits = defineEmits<{
+  // eslint-disable-next-line no-unused-vars
+  (name: 'onSubmitSearch', keyword: string): void;
+}>();
+
 // router
 const router = useRouter();
 // search keyword
@@ -19,7 +25,7 @@ const toHome = () => {
 
 // handle submit search
 const handleSubmitSearch = () => {
-  console.log('处理提交搜索', searchKeyword.value);
+  emits('onSubmitSearch', searchKeyword.value);
 };
 </script>
 

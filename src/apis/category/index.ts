@@ -1,4 +1,4 @@
-import type { CategoryListItem } from './types';
+import type { CategoryListItem, HotCategoryListItem } from './types';
 
 // category list
 export const getCategoryList = async (): Promise<{
@@ -41,6 +41,62 @@ export const getCategoryList = async (): Promise<{
       { id: 'education', name: '教育' },
       { id: 'sports', name: '运动' },
       { id: 'funny', name: '搞笑' },
+    ],
+  });
+};
+
+// hot category list
+export const getHotCategoryList = async (): Promise<{
+  status: string;
+  data: HotCategoryListItem[];
+}> => {
+  await new Promise((resolve) => setTimeout(resolve, 100));
+
+  return Promise.resolve({
+    status: '200',
+    data: [
+      {
+        id: 'Afternoon tea',
+        photo:
+          'https://images.pexels.com/photos/1292862/pexels-photo-1292862.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=250&w=360',
+        title: '下午茶',
+      },
+      {
+        id: 'fashion',
+        photo:
+          'https://images.pexels.com/videos/7305158/pexels-photo-7305158.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=250&w=360',
+        title: '时尚',
+      },
+      {
+        id: 'Love',
+        photo:
+          'https://images.pexels.com/videos/8091554/burglar-country-house-couple-couple-hugging-8091554.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=250&w=360',
+        title: '爱情',
+      },
+      {
+        id: 'nature photography',
+        photo:
+          'https://images.pexels.com/photos/2127969/pexels-photo-2127969.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=250&w=360',
+        title: '自然摄影',
+      },
+      {
+        id: 'Farm',
+        photo:
+          'https://images.pexels.com/photos/1832328/pexels-photo-1832328.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=250&w=360',
+        title: '农场',
+      },
+      {
+        id: 'food photography',
+        photo:
+          'https://images.pexels.com/photos/1652312/pexels-photo-1652312.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=250&w=360',
+        title: '美食摄影',
+      },
+      {
+        id: 'Parenting',
+        photo:
+          'https://images.pexels.com/photos/3663038/pexels-photo-3663038.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=250&w=360',
+        title: '亲子',
+      },
     ],
   });
 };
