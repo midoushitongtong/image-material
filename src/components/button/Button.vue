@@ -52,15 +52,7 @@ const handleClick = (e: MouseEvent) => {
 <template>
   <button
     :class="[
-      'button',
-      'text-sm',
-      'text-center',
-      'rounded',
-      'duration-150',
-      'flex',
-      'items-center',
-      'justify-center',
-      'p-0.5',
+      'button text-sm text-center rounded duration-150 flex items-center justify-center p-0.5',
       // @ts-ignore
       buttonTypeStyle[type],
       // @ts-ignore

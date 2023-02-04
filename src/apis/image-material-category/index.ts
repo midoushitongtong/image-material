@@ -1,9 +1,9 @@
-import type { CategoryListItem, HotCategoryListItem } from './types';
+import type { ImageMaterialCategoryListItem, HotImageMaterialCategoryListItem } from './types';
 
 // category list
-export const getCategoryList = async (): Promise<{
+export const getImageMaterialCategoryList = async (): Promise<{
   status: string;
-  data: CategoryListItem[];
+  data: ImageMaterialCategoryListItem[];
 }> => {
   await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -46,9 +46,9 @@ export const getCategoryList = async (): Promise<{
 };
 
 // hot category list
-export const getHotCategoryList = async (): Promise<{
+export const getHotImageMaterialCategoryList = async (): Promise<{
   status: string;
-  data: HotCategoryListItem[];
+  data: HotImageMaterialCategoryListItem[];
 }> => {
   await new Promise((resolve) => setTimeout(resolve, 100));
 

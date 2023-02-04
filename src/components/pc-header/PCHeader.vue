@@ -39,7 +39,7 @@ const handleSubmitSearch = () => {
         <img
           v-imageLazyLoad
           src="@/assets/images/logo.jpg"
-          class="rounded-sm w-auto h-4 cursor-pointer mr-2"
+          class="guide-home rounded-sm w-auto h-4 cursor-pointer mr-2"
           @click="toHome"
         />
         <!-- search -->

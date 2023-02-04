@@ -7,6 +7,14 @@ const routes: Readonly<RouteRecordRaw[]> = [
     name: 'Home',
     component: () => import('@/views/home/Home.vue'),
   },
+  {
+    path: '/image-material/:id',
+    name: 'ImageMaterialDetail',
+    meta: {
+      transition: 'imater-material-detail',
+    },
+    component: () => import('@/views/image-material-detail/ImageMaterialDetail.vue'),
+  },
 ];
 
 export default routes;

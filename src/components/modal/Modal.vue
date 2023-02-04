@@ -42,7 +42,7 @@ watch(
       </transition>
 
       <!-- 内容 -->
-      <transition name="modal-down-up">
+      <transition name="down-up">
         <div
           v-if="visible"
           v-bind="$attrs"

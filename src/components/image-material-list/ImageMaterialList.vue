@@ -112,7 +112,6 @@ onMounted(() => {
       <Waterfall
         :dataSource="imageMaterialList"
         itemKey="id"
-        :columnNumber="5"
         :imagePreReading="false"
         v-bind="waterfallOptions"
       >

@@ -56,14 +56,7 @@ onMounted(() => {
     >
       <div
         :class="[
-          'flex',
-          'items-center',
-          'p-2',
-          'rounded-sm',
-          'border',
-          'border-solid',
-          'border-zinc-200',
-          'cursor-pointer',
+          'flex items-center p-2 rounded-sm border border-solid border-zinc-200 cursor-pointer',
           messageTooltipTypeStyle[type].containerClass,
         ]"
       >

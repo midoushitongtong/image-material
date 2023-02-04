@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Popover from '@/components/popover/Popover.vue';
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
+import { showMessageTooltip } from '../message-tooltip';
 
 // 菜单
 const menuList = [
@@ -22,10 +23,21 @@ const menuList = [
     icon: 'logout',
   },
 ];
+
+// 菜单点击
+const handleMenuClick = (item: typeof menuList[0]) => {
+  console.log(item);
+
+  showMessageTooltip({
+    type: 'warn',
+    content: '此功能尚未完善...',
+    duration: 3000,
+  });
+};
 </script>
 
 <template>
-  <div class="pc-header-my">
+  <div class="pc-header-my guide-my">
     <Popover placement="bottomRight" class="my-popover">
       <div
         class="relative flex items-center p-0.5 rounded-sm cursor-pointer duration-200 outline-none dark:bg-zinc-900 hover:bg-zinc-100/60 dark:hover:bg-zinc-700"
@@ -53,6 +65,7 @@ const menuList = [
             v-for="item of menuList"
             :key="item.id"
             class="flex items-center p-1 cursor-pointer rounded hover:bg-zinc-100/60 dark:hover:bg-zinc-800"
+            @click="handleMenuClick(item)"
           >
             <SVGIcon
               :name="item.icon"

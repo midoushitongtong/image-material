@@ -1,4 +1,4 @@
-import type { ImageMaterialListItem } from './types';
+import type { ImageMaterialDetail, ImageMaterialListItem } from './types';
 
 // image material list
 export const getImageMaterialList = async (params: {
@@ -381,5 +381,26 @@ export const getImageMaterialList = async (params: {
       },
     ],
     total: 100,
+  });
+};
+
+// image material detail
+export const getImageMaterialDetail = async (params: {
+  id: string;
+}): Promise<{
+  status: string;
+  data: ImageMaterialDetail;
+}> => {
+  console.log(params);
+
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  const list = await getImageMaterialList({
+    pageNumber: 0,
+    pageSize: 0,
+  });
+
+  return Promise.resolve({
+    status: '200',
+    data: list.data.find((item) => item.id === params.id) as ImageMaterialDetail,
   });
 };

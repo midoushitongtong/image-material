@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import MobileNavigation from '@/components/mobile-navigation/MobileNavigation.vue';
+import MobileImageMaterialCategoryNavigation from '@/components/mobile-image-material-category-navigation/MobileImageMaterialCategoryNavigation.vue';
 import ImageMaterialList, {
   type ImageMaterialSearchParams,
 } from '@/components/image-material-list/ImageMaterialList.vue';
 import { inject, type Ref } from 'vue';
-import type { CategoryListItem } from '@/apis/category/types';
+import type { ImageMaterialCategoryListItem } from '@/apis/image-material-category/types';
 
 // inject
-const categoryList = inject('categoryList') as Ref<CategoryListItem[]>;
+const imageMaterialCategoryList = inject('imageMaterialCategoryList') as Ref<
+  ImageMaterialCategoryListItem[]
+>;
 const imageMaterialSearchParams = inject('imageMaterialSearchParams') as Ref<ImageMaterialSearchParams>;
 
 // handle category list item click
@@ -23,8 +25,8 @@ const handleCategoryListItemClick = (id: string) => {
   <div class="mobile-home-content">
     <div class="overflow-auto h-full bg-white dark:bg-zinc-800 duration-500">
       <!-- navigation -->
-      <MobileNavigation
-        :categoryList="categoryList"
+      <MobileImageMaterialCategoryNavigation
+        :imageMaterialCategoryList="imageMaterialCategoryList"
         :activeCategoryId="imageMaterialSearchParams.categoryId"
         @onCategoryListItemClick="handleCategoryListItemClick"
       />

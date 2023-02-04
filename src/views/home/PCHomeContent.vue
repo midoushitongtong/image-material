@@ -1,14 +1,22 @@
 <script setup lang="ts">
-import PCNavigation from '@/components/pc-navigation/PCNavigation.vue';
+import PCImageMaterialCategoryNavigation from '@/components/pc-image-material-category-navigation/PCImageMaterialCategoryNavigation.vue';
 import ImageMaterialList, {
   type ImageMaterialSearchParams,
 } from '@/components/image-material-list/ImageMaterialList.vue';
-import { inject, type Ref } from 'vue';
-import type { CategoryListItem } from '@/apis/category/types';
+import { computed, inject, type Ref } from 'vue';
+import type { ImageMaterialCategoryListItem } from '@/apis/image-material-category/types';
+import { useAppStore } from '@/store/resources/app';
 
 // inject
-const categoryList = inject('categoryList') as Ref<CategoryListItem[]>;
+const imageMaterialCategoryList = inject('imageMaterialCategoryList') as Ref<
+  ImageMaterialCategoryListItem[]
+>;
 const imageMaterialSearchParams = inject('imageMaterialSearchParams') as Ref<ImageMaterialSearchParams>;
+
+// app store
+const appStore = useAppStore();
+// device type
+const deviceType = computed(() => appStore.deviceType);
 
 // handle category list item click
 const handleCategoryListItemClick = (id: string) => {
@@ -21,10 +29,10 @@ const handleCategoryListItemClick = (id: string) => {
 
 <template>
   <div class="pc-home-content">
-    <div class="overflow-auto h-full bg-white dark:bg-zinc-800 duration-500">
+    <div class="scrollbar overflow-auto h-full bg-white dark:bg-zinc-800 duration-500">
       <!-- navigation -->
-      <PCNavigation
-        :categoryList="categoryList"
+      <PCImageMaterialCategoryNavigation
+        :imageMaterialCategoryList="imageMaterialCategoryList"
         :activeCategoryId="imageMaterialSearchParams.categoryId"
         @onCategoryListItemClick="handleCategoryListItemClick"
       />
@@ -33,7 +41,7 @@ const handleCategoryListItemClick = (id: string) => {
         <!-- image material list -->
         <ImageMaterialList
           :waterfallOptions="{
-            columnNumber: 5,
+            columnNumber: deviceType === 'DESKTOP' ? 5 : 3,
             columnSpacing: 10,
             rowSpacing: 10,
           }"

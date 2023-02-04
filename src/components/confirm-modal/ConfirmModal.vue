@@ -83,10 +83,10 @@ onMounted(() => {
     </transition>
 
     <!-- 内容 -->
-    <transition name="modal-down-up">
+    <transition name="down-up">
       <div
         v-if="visible"
-        class="w-[35%] fixed top-1/3 left-[50%] translate-x-[-50%] z-50 px-2 py-2 rounded-sm border border-solid border-zinc-200 dark:border-zinc-600 cursor-pointer bg-white dark:bg-zinc-800 xs:w-[80%]"
+        class="w-[35%] fixed top-1/3 left-[50%] translate-x-[-50%] z-50 px-2 py-2 rounded-sm border border-solid border-zinc-200 dark:border-zinc-600 cursor-pointer bg-white dark:bg-zinc-800 mobile:w-[80%]"
       >
         <!-- 标题 -->
         <div class="text-lg font-bold text-zinc-900 dark:text-zinc-200 mb-2">
@@ -127,13 +127,13 @@ onMounted(() => {
 }
 
 // modal 动画
-.modal-down-up-enter-active,
-.modal-down-up-leave-active {
+.down-up-enter-active,
+.down-up-leave-active {
   transition: all v-bind(cssTransitionDuration);
 }
 // 准备进入, 离开完成
-.modal-down-up-enter-from,
-.modal-down-up-leave-to {
+.down-up-enter-from,
+.down-up-leave-to {
   opacity: 0;
   transform: translate3d(-50%, 100px, 0);
 }

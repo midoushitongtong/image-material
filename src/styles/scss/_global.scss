@@ -25,3 +25,11 @@ body {
   text-rendering: optimizeLegibility;
   font-size: 1rem;
 }
+
+// 全局滚动条样式
+.scrollbar {
+  @apply scrollbar-thin scrollbar-thumb-zinc-400 scrollbar-track-zinc-200 dark:scrollbar-thumb-zinc-500 dark:scrollbar-track-zinc-300;
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+  }
+}

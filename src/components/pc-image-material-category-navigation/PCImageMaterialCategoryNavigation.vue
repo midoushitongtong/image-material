@@ -2,11 +2,11 @@
 import { onMounted, ref, watch } from 'vue';
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import { useWindowSize } from '@vueuse/core';
-import type { CategoryListItem } from '@/apis/category/types';
+import type { ImageMaterialCategoryListItem } from '@/apis/image-material-category/types';
 
 // props
 type Props = {
-  categoryList: CategoryListItem[];
+  imageMaterialCategoryList: ImageMaterialCategoryListItem[];
   activeCategoryId: string;
 };
 defineProps<Props>();
@@ -55,7 +55,7 @@ onMounted(() => {
 <template>
   <div
     ref="pcNavigationRef"
-    class="pc-navigation bg-white dark:bg-zinc-800 sticky top-0 left-0 w-full z-10 overflow-hidden duration-500"
+    class="pc-image-material-category-navigation bg-white dark:bg-zinc-800 sticky top-0 left-0 w-full z-10 overflow-hidden duration-500"
   >
     <div
       class="max-w-[900px] relative text-xs text-zinc-600 duration-300 mx-auto"
@@ -77,22 +77,10 @@ onMounted(() => {
       <!-- 菜单列表 -->
       <div class="category-list flex flex-wrap justify-center px-[50px] py-1">
         <div
-          v-for="item of categoryList"
+          v-for="item of imageMaterialCategoryList"
           :key="item.id"
           :class="[
-            'px-1.5',
-            'z-10',
-            'duration-200',
-            'text-zinc-900 dark:text-zinc-500 dark:hover:text-zinc-300',
-            'text-base',
-            'font-bold',
-            'h-4',
-            'leading-4',
-            'cursor-pointer',
-            'hover:bg-zinc-200 dark:hover:bg-zinc-900',
-            'rounded',
-            'mr-1',
-            'mb-1',
+            'px-1.5 z-10 duration-200 text-zinc-900 dark:text-zinc-500 dark:hover:text-zinc-300 text-base font-bold h-4 leading-4 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-900 rounded mr-1 mb-1',
             item.id === activeCategoryId && 'bg-zinc-200 dark:bg-zinc-900',
           ]"
           @click="updateCurrentCategoryId(item.id)"
@@ -105,5 +93,5 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-@import './PCNavigation.scss'; ;
+@import './PCImageMaterialCategoryNavigation.scss'; ;
 </style>

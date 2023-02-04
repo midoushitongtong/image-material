@@ -5,7 +5,10 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        xs: { max: '639px' },
+        pc: { min: '1200px' },
+        'pc-and-tablet': { min: '768px' },
+        tablet: { max: '1199px', min: '768px' },
+        mobile: { max: '767px' },
       },
       fontSize: {
         xs: ['0.3rem', '0.4rem'],
@@ -45,5 +48,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar')({ nocompatible: true })],
 };

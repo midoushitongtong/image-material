@@ -3,14 +3,14 @@ import { onMounted, ref, watch } from 'vue';
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import { useScroll } from '@vueuse/core';
 import Modal from '@/components/modal/Modal.vue';
-import MobileNavigationCategoryMenu from './MobileNavigationCategoryMenu.vue';
+import MobileImageMaterialCategoryNavigationModal from './MobileImageMaterialCategoryNavigationModal.vue';
 import { useFonSize } from '@/hooks/use-font-size';
 import { scrollTo } from '@/utils/dom';
-import type { CategoryListItem } from '@/apis/category/types';
+import type { ImageMaterialCategoryListItem } from '@/apis/image-material-category/types';
 
 // props
 type Props = {
-  categoryList: CategoryListItem[];
+  imageMaterialCategoryList: ImageMaterialCategoryListItem[];
   activeCategoryId: string;
 };
 const props = defineProps<Props>();
@@ -46,7 +46,7 @@ const refreshSliderStyle = () => {
 
   const rect =
     categoryRefList.value[
-      props.categoryList.findIndex((item) => item.id === props.activeCategoryId)
+      props.imageMaterialCategoryList.findIndex((item) => item.id === props.activeCategoryId)
     ].getBoundingClientRect();
 
   sliderStyle.value = {
@@ -100,7 +100,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="mobile-navigation sticky top-0 left-0 z-10 overflow-hidden">
+  <div class="mobile-image-material-category-navigation sticky top-0 left-0 z-10 overflow-hidden">
     <div class="bg-white dark:bg-zinc-900 duration-500 flex">
       <!-- 菜单列表 -->
       <div
@@ -108,7 +108,7 @@ onMounted(() => {
         class="relative flex items-center overflow-x-auto p-[10px] text-xs text-zinc-600"
       >
         <div
-          v-for="(item, index) of categoryList"
+          v-for="(item, index) of imageMaterialCategoryList"
           :key="item.id"
           :ref="(ref) => setCategoryRef(index, ref)"
           :class="[
@@ -139,8 +139,8 @@ onMounted(() => {
 
       <!-- 菜单 modal, 点击按钮弹出 -->
       <Modal v-model:visible="visibleCategoryModal">
-        <MobileNavigationCategoryMenu
-          :categoryList="categoryList"
+        <MobileImageMaterialCategoryNavigationModal
+          :imageMaterialCategoryList="imageMaterialCategoryList"
           :activeCategoryId="activeCategoryId"
           @onCategoryListItemClick="updateCurrentCategoryId"
         />
@@ -150,5 +150,5 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-@import './MobileNavigation.scss';
+@import './MobileImageMaterialCategoryNavigation.scss';
 </style>

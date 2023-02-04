@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { getHotCategoryList } from '@/apis/category';
-import type { HotCategoryListItem } from '@/apis/category/types';
+import { getHotImageMaterialCategoryList } from '@/apis/image-material-category';
+import type { HotImageMaterialCategoryListItem } from '@/apis/image-material-category/types';
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import { randomColor } from '@/utils/random';
+import { showMessageTooltip } from '../message-tooltip';
 
 // init data loading
 const initDataLoading = ref(true);
 // hot category list
 const hotCategory = ref<{
-  big?: HotCategoryListItem;
-  list: HotCategoryListItem[];
+  big?: HotImageMaterialCategoryListItem;
+  list: HotImageMaterialCategoryListItem[];
 }>({
   big: undefined,
   list: [],
@@ -20,7 +21,7 @@ const hotCategory = ref<{
 const initData = async () => {
   try {
     initDataLoading.value = true;
-    const result = await getHotCategoryList();
+    const result = await getHotImageMaterialCategoryList();
     hotCategory.value = {
       big: result.data[0],
       list: result.data.slice(1),
@@ -30,6 +31,16 @@ const initData = async () => {
   } finally {
     initDataLoading.value = false;
   }
+};
+
+// handle click item
+const handleClickItem = (item: HotImageMaterialCategoryListItem) => {
+  console.log(item);
+  showMessageTooltip({
+    type: 'warn',
+    content: '此功能尚未完善...',
+    duration: 3000,
+  });
 };
 
 // on mounted
@@ -42,13 +53,14 @@ onMounted(() => {
   <template v-if="!initDataLoading">
     <div class="pc-header-search-hot-category">
       <div class="text-xs mb-1 text-zinc-400">热门精选</div>
-      <div v-if="hotCategory.big?.photo && hotCategory.list.length > 0" class="flex h-[140px]">
+      <div v-if="hotCategory.big && hotCategory.list.length > 0" class="flex h-[140px]">
         <!-- 大图 -->
         <div
           class="group relative rounded w-[260px] flex-none cursor-pointer"
           :style="{
             backgroundColor: randomColor(),
           }"
+          @click="handleClickItem(hotCategory.big as HotImageMaterialCategoryListItem)"
         >
           <img v-imageLazyLoad class="h-full w-full object-cover rounded" :src="hotCategory.big.photo" />
           <p
@@ -63,6 +75,7 @@ onMounted(() => {
             v-for="item of hotCategory.list"
             :key="item.id"
             class="group h-[45%] w-[100%] max-w-[260px] text-white text-xs relative ml-1.5 mb-1.5 rounded cursor-pointer"
+            @click="handleClickItem(item)"
           >
             <img v-imageLazyLoad class="h-full w-full object-cover rounded" :src="item.photo" />
             <p

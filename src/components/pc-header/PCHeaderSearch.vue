@@ -103,18 +103,18 @@ watch(
 </script>
 
 <template>
-  <div class="pc-header-search relative mr-1 flex-1" ref="containerRef">
-    <div class="group p-0.5 rounded-xl border-white duration-500 hover:bg-red-100/40">
+  <div class="pc-header-search p-0.5 relative mr-1 flex-1" ref="containerRef">
+    <div class="group relative guide-search rounded-xl border-white duration-500 hover:bg-red-100/40">
       <!-- 搜索图标 -->
       <SVGIcon
         name="search"
         color="#707070"
-        class="w-1.5 h-1.5 absolute top-[50%] left-2 translate-y-[-50%]"
+        class="w-1.5 h-1.5 absolute top-[50%] left-[15px] translate-y-[-50%]"
       />
       <!-- 输入框 -->
       <input
         type="text"
-        class="group-hover:bg-white dark:group-hover:bg-zinc-900 group-hover:border-zinc-200 dark:group-hover:border-zinc-700 block w-full h-[44px] pl-4 pr-9 outline-0 bg-zinc-100 dark:bg-zinc-800 caret-zinc-400 rounded-xl text-zinc-900 dark:text-zinc-200 tranking-wide text-sm font-semibold border border-solid border-zinc-100 dark:border-zinc-700 focus:border-red-300 duration-500"
+        class="group-hover:bg-white dark:group-hover:bg-zinc-900 group-hover:border-zinc-200 dark:group-hover:border-zinc-700 block w-full h-[44px] pl-4 pr-[85px] outline-0 bg-zinc-100 dark:bg-zinc-800 caret-zinc-400 rounded-xl text-zinc-900 dark:text-zinc-200 tranking-wide text-sm font-semibold border border-solid border-zinc-100 dark:border-zinc-700 focus:border-red-300 duration-500"
         placeholder="搜索"
         :value="searchKeyword"
         @input="handleInputValue"
@@ -127,18 +127,18 @@ watch(
         v-show="searchKeyword"
         name="input-delete"
         color="#707070"
-        class="w-1.5 h-1.5 absolute top-[50%] right-7 translate-y-[-50%] duration-500 cursor-pointer"
+        class="w-1.5 h-1.5 absolute top-[50%] right-[58px] translate-y-[-50%] duration-500 cursor-pointer"
         @click="handleClearValue"
       />
       <!-- 分割线 -->
       <div
-        class="group-hover:opacity-100 opacity-0 w-[1px] h-1.5 absolute top-[50%] translate-y-[-50%] right-[59px] duration-500 bg-zinc-200"
+        class="group-hover:opacity-100 opacity-0 w-[1px] h-1.5 absolute top-[50%] translate-y-[-50%] right-[50px] duration-500 bg-zinc-200"
       />
       <!-- 搜索按钮 -->
       <Button
         iconName="search"
         iconColor="#fff"
-        class="group-hover:opacity-100 opacity-100 absolute top-[50%] translate-y-[-50%] right-[7px] rounded-full duration-500"
+        class="group-hover:opacity-100 opacity-100 absolute top-[50%] translate-y-[-50%] right-[2px] rounded-full duration-500"
         @click="handleSubmitSearch"
       />
     </div>
@@ -147,7 +147,7 @@ watch(
     <transition name="slide">
       <div
         v-show="visibleDropdown"
-        class="max-h-[368px] z-20 overflow-y-auto text-sm bg-white dark:bg-zinc-800 absolute top-[57px] left-0.5 right-0.5 p-2 rounded border border-solid border-zinc-200 dark:border-zinc-600 duration-200 hover:shadow-lg"
+        class="scrollbar max-h-[368px] z-20 overflow-y-auto text-sm bg-white dark:bg-zinc-800 absolute top-[57px] left-0.5 right-0.5 p-2 rounded border border-solid border-zinc-200 dark:border-zinc-600 duration-200 hover:shadow-lg"
       >
         <!-- 搜索关键字提示 -->
         <PCHeaderSearchHint

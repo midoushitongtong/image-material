@@ -222,7 +222,7 @@ const initLayout = async () => {
 
 // 监听数据
 watch(
-  () => props.dataSource,
+  props,
   async () => {
     // 等待 dom 渲染完成
     await nextTick();
