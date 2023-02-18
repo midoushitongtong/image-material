@@ -1,24 +1,37 @@
 <script setup lang="ts">
 import Popover from '@/components/popover/Popover.vue';
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
+import { useAccountStore } from '@/store/resources/account';
+import { chechRouteNeedAuth } from '@/utils/router';
+import { computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import Button from '../button/Button.vue';
 import { showMessageTooltip } from '../message-tooltip';
 
+// route
+const route = useRoute();
+// router
+const router = useRouter();
+// account store
+const accountStore = useAccountStore();
+// userInfo
+const userInfo = computed(() => accountStore.userInfo);
 // 菜单
 const menuList = [
   {
-    id: '1',
+    id: 'profile',
     title: '个人资料',
     icon: 'profile',
     path: '/Profile',
   },
   {
-    id: '2',
+    id: 'vipProfile',
     title: '升级 VIP',
     icon: 'vip-profile',
     path: '/membership',
   },
   {
-    id: '3',
+    id: 'logout',
     title: '退出登录',
     icon: 'logout',
   },
@@ -28,17 +41,43 @@ const menuList = [
 const handleMenuClick = (item: typeof menuList[0]) => {
   console.log(item);
 
+  // 退出登录
+  if (item.id === 'logout') {
+    // 退出登录
+    accountStore.signOut();
+    // 检测路由是否需要登录，如果需要跳转到登录页面
+    chechRouteNeedAuth({
+      route,
+      showNeedAuthTooltip: false,
+    });
+    // 提示用户退出成功
+    showMessageTooltip({
+      type: 'success',
+      content: '退出成功...',
+      duration: 3000,
+    });
+    return;
+  }
+
   showMessageTooltip({
     type: 'warn',
     content: '此功能尚未完善...',
     duration: 3000,
   });
 };
+
+// 前往登录
+const toSignIn = () => {
+  router.push({
+    name: 'AccountSignIn',
+  });
+};
 </script>
 
 <template>
   <div class="pc-header-my guide-my">
-    <Popover placement="bottomRight" class="my-popover">
+    <!-- 已登录显示 -->
+    <Popover placement="bottomRight" class="my-popover" v-if="userInfo">
       <div
         class="relative flex items-center p-0.5 rounded-sm cursor-pointer duration-200 outline-none dark:bg-zinc-900 hover:bg-zinc-100/60 dark:hover:bg-zinc-700"
       >
@@ -57,7 +96,6 @@ const handleMenuClick = (item: typeof menuList[0]) => {
           fillClass="fill-zinc-900"
         />
       </div>
-
       <!-- 气泡视图展示的内容 -->
       <template #content>
         <div class="w-[140px] overflow-hidden">
@@ -77,6 +115,10 @@ const handleMenuClick = (item: typeof menuList[0]) => {
         </div>
       </template>
     </Popover>
+    <!-- 未登录显示 -->
+    <div v-else>
+      <Button iconName="profile" iconColor="#fff" @click="toSignIn"></Button>
+    </div>
   </div>
 </template>
 

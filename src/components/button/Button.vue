@@ -19,12 +19,15 @@ type Props = {
   isActiveAnimate?: boolean;
   // 按钮加载状态
   loading?: boolean;
+  // html type
+  htmlType?: 'button' | 'submit' | 'reset';
 };
 const props = withDefaults(defineProps<Props>(), {
   type: 'main',
   size: 'default',
   isActiveAnimate: false,
   loading: false,
+  htmlType: 'button',
 });
 
 // define emits
@@ -60,6 +63,7 @@ const handleClick = (e: MouseEvent) => {
       isActiveAnimate && 'active:scale-105',
     ]"
     @click="handleClick"
+    :type="htmlType"
   >
     <!-- loading -->
     <SVGIcon v-if="loading" name="loading" class="w-2 h-2 animate-spin mr-1" />

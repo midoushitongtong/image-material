@@ -154,13 +154,14 @@ onUnmounted(() => {
         class="hidden md:block opacity-0 w-full h-full bg-zinc-900/50 absolute top-0 left-0 rounded duration-300 group-hover:opacity-100"
       >
         <!-- 分享 -->
-        <Button class="absolute top-1.5 left-1.5">分享</Button>
+        <Button class="absolute top-1.5 left-1.5" @click.stop="() => {}">分享</Button>
         <!-- 点赞 -->
         <Button
           class="absolute top-1.5 right-1.5"
           type="info"
           iconName="heart"
           iconClass="fill-zinc-900 dark:fill-zinc-200"
+          @click.stop="() => {}"
         />
         <!-- 下载 -->
         <Button
@@ -169,7 +170,7 @@ onUnmounted(() => {
           iconName="download"
           size="small"
           iconClass="fill-zinc-900 dark:fill-zinc-200"
-          @click="handleDownload"
+          @click.stop="handleDownload"
         />
         <!-- 全屏 -->
         <Button
@@ -178,7 +179,7 @@ onUnmounted(() => {
           iconName="full"
           size="small"
           iconClass="fill-zinc-900 dark:fill-zinc-200"
-          @click="handleFullscreen"
+          @click.stop="handleFullscreen"
         />
       </div>
     </div>

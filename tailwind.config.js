@@ -28,6 +28,7 @@ module.exports = {
       boxShadow: {
         'l-white': '-10px 0 10px white',
         'l-zinc': '-10px 0 10px #18181b',
+        'form-error': '0 0 3px #dc2626',
       },
       height: {
         'pc-header': '72px',
@@ -45,6 +46,7 @@ module.exports = {
         'error-100': '#ed7456',
         'error-200': '#f3471c',
         'error-300': '#ffffff',
+        'form-error': '#dc2626',
       },
     },
   },

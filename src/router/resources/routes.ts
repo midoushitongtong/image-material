@@ -10,10 +10,28 @@ const routes: Readonly<RouteRecordRaw[]> = [
   {
     path: '/image-material/:id',
     name: 'ImageMaterialDetail',
-    meta: {
-      transition: 'imater-material-detail',
-    },
     component: () => import('@/views/image-material-detail/ImageMaterialDetail.vue'),
+  },
+  {
+    path: '/account',
+    name: 'Account',
+    redirect: () => {
+      return {
+        name: 'AccountSignIn',
+      };
+    },
+    children: [
+      {
+        path: '/account/sign-in',
+        name: 'AccountSignIn',
+        component: () => import('@/views/account/sign-in/SignIn.vue'),
+      },
+      {
+        path: '/account/sign-up',
+        name: 'AccountSignUp',
+        component: () => import('@/views/account/sign-up/SignUp.vue'),
+      },
+    ],
   },
 ];
 
