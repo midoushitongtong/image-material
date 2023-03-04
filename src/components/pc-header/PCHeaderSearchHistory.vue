@@ -6,8 +6,7 @@ import { showConfirmModal } from '@/components/confirm-modal';
 
 // define emits
 const emits = defineEmits<{
-  // eslint-disable-next-line no-unused-vars
-  (name: 'itemClick', keyword: string): void;
+  (_name: 'itemClick', _keyword: string): void;
 }>();
 
 // search histor store

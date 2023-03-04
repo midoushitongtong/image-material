@@ -28,6 +28,12 @@ const initData = async () => {
     };
   } catch (error) {
     console.log(error);
+
+    showMessageTooltip({
+      type: 'warn',
+      content: '服务器内部错误, 请稍后重试...',
+      duration: 3000,
+    });
   } finally {
     initDataLoading.value = false;
   }

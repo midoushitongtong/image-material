@@ -5,10 +5,8 @@ import './slider-captcha/longbow.slidercaptcha.js';
 
 // define emits
 const emits = defineEmits<{
-  // eslint-disable-next-line no-unused-vars
-  (name: 'success'): void;
-  // eslint-disable-next-line no-unused-vars
-  (name: 'close'): void;
+  (_name: 'success'): void;
+  (_name: 'close'): void;
 }>();
 
 // captcha ref

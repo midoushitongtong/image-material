@@ -6,6 +6,7 @@ import { chechRouteNeedAuth } from '@/utils/router';
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Button from '../button/Button.vue';
+import { showConfirmModal } from '../confirm-modal';
 import { showMessageTooltip } from '../message-tooltip';
 
 // route
@@ -38,23 +39,36 @@ const menuList = [
 ];
 
 // 菜单点击
-const handleMenuClick = (item: typeof menuList[0]) => {
+const handleMenuClick = async (item: typeof menuList[0]) => {
   console.log(item);
+
+  // 个人资料
+  if (item.id === 'profile') {
+    router.push({
+      name: 'UserProfile',
+    });
+    return;
+  }
 
   // 退出登录
   if (item.id === 'logout') {
-    // 退出登录
-    accountStore.signOut();
-    // 检测路由是否需要登录，如果需要跳转到登录页面
-    chechRouteNeedAuth({
-      route,
-      showNeedAuthTooltip: false,
-    });
-    // 提示用户退出成功
-    showMessageTooltip({
-      type: 'success',
-      content: '退出成功...',
-      duration: 3000,
+    await showConfirmModal({
+      content: '确认退出登录吗？',
+      onConfirm: () => {
+        // 退出登录
+        accountStore.signOut();
+        // 检测路由是否需要登录，如果需要跳转到登录页面
+        chechRouteNeedAuth({
+          route,
+          showNeedAuthTooltip: false,
+        });
+        // 提示用户退出成功
+        showMessageTooltip({
+          type: 'success',
+          content: '退出成功...',
+          duration: 3000,
+        });
+      },
     });
     return;
   }

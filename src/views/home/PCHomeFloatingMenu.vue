@@ -80,24 +80,24 @@ const handleGuide = () => {
     <div class="fixed bottom-12 right-2 content-container">
       <!-- 引导页 -->
       <div
-        class="guide-start w-4 h-4 mb-1 bg-white dark:bg-zinc-900 border border-solid border-zinc-100 dark:border-zinc-700 rounded-full flex justify-center items-center cursor-pointer duration-200 hover:shadow-lg"
+        class="group guide-start w-4 h-4 mb-1 bg-white dark:bg-zinc-900 border border-solid border-zinc-100 dark:border-zinc-700 rounded-full flex justify-center items-center cursor-pointer duration-200 hover:shadow-lg"
         @click="handleGuide"
       >
         <SVGIcon
           name="guide"
           class="w-2 h-2"
-          fillClass="fill-zinc-900 dark:fill-zinc-200 group:hover:fill-main"
+          fillClass="fill-zinc-900 dark:fill-zinc-200 group-hover:fill-main"
         />
       </div>
       <!-- 反馈 -->
       <Popover class="flex items-center" placement="bottomRight">
         <div
-          class="guide-feedback w-4 h-4 bg-white dark:bg-zinc-900 border border-solid border-zinc-100 dark:border-zinc-700 rounded-full flex justify-center items-center cursor-pointer duration-200 hover:shadow-lg"
+          class="group guide-feedback w-4 h-4 bg-white dark:bg-zinc-900 border border-solid border-zinc-100 dark:border-zinc-700 rounded-full flex justify-center items-center cursor-pointer duration-200 hover:shadow-lg"
         >
           <SVGIcon
             name="feedback"
             class="w-2 h-2"
-            fillClass="fill-zinc-900 dark:fill-zinc-200 group:hover:fill-main"
+            fillClass="fill-zinc-900 dark:fill-zinc-200 group-hover:fill-main"
           />
         </div>
         <template #content>

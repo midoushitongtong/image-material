@@ -18,4 +18,5 @@
 .down-up-enter-from,
 .down-up-leave-to {
   transform: translateY(100%);
+  opacity: 0;
 }

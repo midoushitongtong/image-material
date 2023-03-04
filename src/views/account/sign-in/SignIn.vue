@@ -97,6 +97,7 @@ const handleSubmit = async () => {
 // 人机验证
 const handleCaptcha = async () => {
   const result = await formRef.value.validate();
+
   if (result.valid) {
     visibleCaptcha.value = true;
   }
@@ -149,7 +150,7 @@ onMounted(() => {
                   <input
                     v-bind="field"
                     :class="[
-                      'w-[100%] h-[41px] text-[14px] leading-[17px] bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-400 border border-solid border-zinc-300 text-base outline-0 p-1 rounded-sm duration-200 focus:border-main dark:focus:border-zinc-200',
+                      'w-[100%] h-[40px] text-[14px] leading-[17px] bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-400 border border-solid border-zinc-300 text-base outline-0 p-1 rounded-sm duration-200 focus:border-main dark:focus:border-zinc-200',
                       errorMessage && 'border-form-error shadow-form-error',
                     ]"
                     type="text"
@@ -171,7 +172,7 @@ onMounted(() => {
                   <input
                     v-bind="field"
                     :class="[
-                      'w-[100%] h-[41px] text-[14px] leading-[17px] bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-400 border border-solid border-zinc-300 text-base outline-0 p-1 rounded-sm duration-200 focus:border-main dark:focus:border-zinc-200',
+                      'w-[100%] h-[40px] text-[14px] leading-[17px] bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-400 border border-solid border-zinc-300 text-base outline-0 p-1 rounded-sm duration-200 focus:border-main dark:focus:border-zinc-200',
                       errorMessage && 'border-form-error shadow-form-error',
                     ]"
                     type="password"

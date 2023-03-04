@@ -51,7 +51,7 @@ onMounted(() => {
 <template>
   <transition name="up-down">
     <div
-      class="message-tooltip min-w-[420px] fixed top-[20px] left-[50%] translate-x-[-50%] z-50"
+      class="message-tooltip w-[max-content] max-w-[90%] fixed top-[20px] left-[50%] translate-x-[-50%] z-50"
       v-show="visible"
     >
       <div

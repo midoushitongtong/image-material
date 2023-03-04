@@ -6,11 +6,15 @@ import type { DeviceType } from './utils/device-type/types';
 import { useFonSize } from './hooks/use-font-size';
 import { themeTypeEnquire, updateHTMLThemeType } from './utils/theme-type';
 import { THEME_SYSTEM } from './constants';
+import MobileMenu from './components/mobile-menu/MobileMenu.vue';
+import TransitionRouterView from './components/transition-router-view/TransitionRouterView.vue';
 
 // app store
 const appStore = useAppStore();
 // theme type
 const themeType = computed(() => appStore.themeType);
+// device type
+const deviceType = computed(() => appStore.deviceType);
 // font size
 useFonSize();
 
@@ -62,7 +66,14 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <router-view />
+  <div id="app-container">
+    <!-- 电脑端和平板端 -->
+    <router-view v-if="deviceType === 'DESKTOP' || deviceType === 'TABLET'" />
+    <!-- 手机端需要路由动画 -->
+    <TransitionRouterView v-else />
+
+    <MobileMenu v-if="deviceType === 'MOBILE'" />
+  </div>
 </template>
 
 <style lang="scss">

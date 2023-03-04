@@ -7,7 +7,7 @@ type Props = {
   // 标题
   title?: string;
   // 内容
-  content: string;
+  content?: string;
   // 取消按钮文本
   cancelText?: string;
   // 确定按钮文本
@@ -89,11 +89,11 @@ onMounted(() => {
         class="w-[35%] fixed top-1/3 left-[50%] translate-x-[-50%] z-50 px-2 py-2 rounded-sm border border-solid border-zinc-200 dark:border-zinc-600 cursor-pointer bg-white dark:bg-zinc-800 mobile:w-[80%]"
       >
         <!-- 标题 -->
-        <div class="text-lg font-bold text-zinc-900 dark:text-zinc-200 mb-2">
+        <div v-if="title" class="text-lg font-bold text-zinc-900 dark:text-zinc-200 mb-2">
           {{ title }}
         </div>
         <!-- 文本 -->
-        <div class="text-base tinc-zinc-900 dark:text-zinc-200 mb-2">
+        <div v-if="content" class="text-base tinc-zinc-900 dark:text-zinc-200 mb-2">
           {{ content }}
         </div>
         <!-- 按钮 -->

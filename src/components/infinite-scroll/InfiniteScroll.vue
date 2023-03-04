@@ -16,10 +16,8 @@ const props = withDefaults(defineProps<Props>(), {
 
 // define emits
 const emits = defineEmits<{
-  // eslint-disable-next-line no-unused-vars
-  (name: 'onLoad'): void;
-  // eslint-disable-next-line no-unused-vars
-  (name: 'update:loading'): void;
+  (_name: 'onLoad'): void;
+  (_name: 'update:loading'): void;
 }>();
 
 // 滚动的元素

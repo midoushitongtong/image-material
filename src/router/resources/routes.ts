@@ -33,6 +33,14 @@ const routes: Readonly<RouteRecordRaw[]> = [
       },
     ],
   },
+  {
+    path: '/user/profile',
+    name: 'UserProfile',
+    meta: {
+      needAuth: true,
+    },
+    component: () => import('@/views/user/profile/Profile.vue'),
+  },
 ];
 
 export default routes;

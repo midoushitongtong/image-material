@@ -32,8 +32,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 // define emits
 const emits = defineEmits<{
-  // eslint-disable-next-line no-unused-vars
-  (name: 'click', event: MouseEvent): void;
+  (_name: 'click', _event: MouseEvent): void;
 }>();
 
 // 如果是 icon 按钮, 加上 size 前缀
@@ -55,7 +54,7 @@ const handleClick = (e: MouseEvent) => {
 <template>
   <button
     :class="[
-      'button text-sm text-center rounded duration-150 flex items-center justify-center p-0.5',
+      'button outline-none text-sm text-center rounded duration-150 flex items-center justify-center p-0.5',
       // @ts-ignore
       buttonTypeStyle[type],
       // @ts-ignore

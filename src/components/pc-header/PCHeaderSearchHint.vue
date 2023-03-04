@@ -2,6 +2,7 @@
 import { getSearchHintList } from '@/apis/search';
 import type { SearchHintListItem } from '@/apis/search/types';
 import { watchThrottled } from '@vueuse/core';
+import { showMessageTooltip } from '../message-tooltip';
 
 // define props
 type Props = {
@@ -12,10 +13,8 @@ const props = defineProps<Props>();
 
 // define emits
 const emits = defineEmits<{
-  // eslint-disable-next-line no-unused-vars
-  (name: 'itemClick', keyword: string): void;
-  // eslint-disable-next-line no-unused-vars
-  (name: 'update:searchHintList', searchHintList: SearchHintListItem[]): void;
+  (_name: 'itemClick', _keyword: string): void;
+  (_name: 'update:searchHintList', _searchHintList: SearchHintListItem[]): void;
 }>();
 
 // 刷新搜索提示
@@ -31,6 +30,12 @@ const refreshData = async () => {
     emits('update:searchHintList', result.data);
   } catch (error) {
     console.log(error);
+
+    showMessageTooltip({
+      type: 'warn',
+      content: '服务器内部错误, 请稍后重试...',
+      duration: 3000,
+    });
   }
 };
 

@@ -7,8 +7,7 @@ import { ref } from 'vue';
 
 // emits
 const emits = defineEmits<{
-  // eslint-disable-next-line no-unused-vars
-  (name: 'onSubmitSearch', keyword: string): void;
+  (_name: 'onSubmitSearch', _keyword: string): void;
 }>();
 
 // router

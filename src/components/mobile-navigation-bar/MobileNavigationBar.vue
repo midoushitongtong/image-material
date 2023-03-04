@@ -28,9 +28,9 @@ const handleLeftClick = () => {
 </script>
 
 <template>
-  <div :class="['mobie-navigaton-bar', sticky ? 'sticky top-0 left-0' : 'relative']">
+  <div :class="['mobie-navigaton-bar z-10', sticky ? 'sticky top-0 left-0' : 'relative']">
     <div
-      class="z-10 w-full h-5 flex items-center border-b border-solid border-b-zinc-200 dark:border-b-zinc-700 bg-white dark:bg-zinc-800"
+      class="w-full h-5 flex items-center border-b border-solid border-b-zinc-200 dark:border-b-zinc-700 bg-white dark:bg-zinc-800"
     >
       <!-- 左 -->
       <slot name="left">

@@ -17,10 +17,8 @@ const props = defineProps<Props>();
 
 // define emits
 const emits = defineEmits<{
-  // eslint-disable-next-line no-unused-vars
-  (name: 'update:searchKeyword', keyword: string): void;
-  // eslint-disable-next-line no-unused-vars
-  (name: 'onSubmitSearch'): void;
+  (_name: 'update:searchKeyword', _keyword: string): void;
+  (_name: 'onSubmitSearch'): void;
 }>();
 
 // search hint list

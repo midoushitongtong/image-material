@@ -13,8 +13,7 @@ defineProps<Props>();
 
 // define emits
 const emits = defineEmits<{
-  // eslint-disable-next-line no-unused-vars
-  (name: 'onCategoryListItemClick', id: string): void;
+  (_name: 'onCategoryListItemClick', _id: string): void;
 }>();
 
 // ref

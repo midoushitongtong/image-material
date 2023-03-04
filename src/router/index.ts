@@ -1,16 +1,60 @@
 import { getUserInfo } from '@/apis/account';
+import { useAppStore } from '@/store/resources/app';
 import { useAccountStore } from '@/store/resources/account';
 import { chechRouteNeedAuth } from '@/utils/router';
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, type RouteLocationRaw, type RouteRecordName } from 'vue-router';
 import routes from './resources/routes';
+
+// 记录至少访问过一次的路由名称
+const accessedRouteNames: (RouteRecordName | null | undefined)[] = [];
 
 const router = createRouter({
   // history 路由模式
   history: createWebHistory(import.meta.env.BASE_URL),
   // 路由表
   routes,
+  // 滚动条处理
+  async scrollBehavior(to, from, savedPosition) {
+    const appStore = useAppStore();
+    const deviceType = appStore.deviceType;
+
+    // 手机端因为有路由动画的原因, 滚动条重置到 0
+    if (deviceType === 'MOBILE') {
+      return {
+        left: 0,
+        top: 0,
+      };
+    }
+
+    // 此页面重来没有被访问过, 滚动条重置到 0
+    if (!accessedRouteNames.includes(to.name)) {
+      accessedRouteNames.push(to.name);
+
+      return {
+        left: 0,
+        top: 0,
+      };
+    }
+
+    // 同一个页面, 不需要重置 (例如某些列表页面条件筛选的时候)
+    if (to.name === from.name) {
+      return false;
+    }
+
+    // 返回上一页的时候, 重置到原来保留的位置
+    if (savedPosition) {
+      return savedPosition;
+    }
+
+    // push 到新页面, 滚动条重置到 0
+    return {
+      left: 0,
+      top: 0,
+    };
+  },
 });
 
+// 路由权限验证
 router.beforeEach(async (to, from, next) => {
   // account store
   const accountStore = useAccountStore();
@@ -69,5 +113,28 @@ router.beforeEach(async (to, from, next) => {
     handleNoSignInSuccess();
   }
 });
+
+// 记录历史路由 id
+export const routerHistoryIdList: string[] = [];
+// 原 push 方法
+const originRouterPush = router.push;
+// 重写 push 方法
+router.push = function routerPush(params: RouteLocationRaw) {
+  const appStore = useAppStore();
+  const deviceType = appStore.deviceType;
+  const routerHistoryId = Math.random() + '';
+
+  // 手机端: 需要记录历史路由 id
+  if (deviceType === 'MOBILE') {
+    // @ts-ignore
+    params.query = {
+      // @ts-ignore
+      ...(params.query || {}),
+      routerHistoryId,
+    };
+  }
+
+  return originRouterPush.call(this, params);
+};
 
 export default router;

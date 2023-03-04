@@ -6,6 +6,7 @@ import { onMounted, ref, watch } from 'vue';
 import Waterfall, { type Props as WaterfallProps } from '@/components/waterfall/Waterfall.vue';
 import ImageMaterialListItem_ from './ImageMaterialListItem.vue';
 import InfiniteScroll from '@/components/infinite-scroll/InfiniteScroll.vue';
+import { showMessageTooltip } from '../message-tooltip';
 
 export type ImageMaterialSearchParams = {
   categoryId: string;
@@ -66,6 +67,12 @@ const loadData = async () => {
     pagination.value.total = result.total;
   } catch (error) {
     console.log(error);
+
+    showMessageTooltip({
+      type: 'warn',
+      content: '服务器内部错误, 请稍后重试...',
+      duration: 3000,
+    });
   }
 };
 

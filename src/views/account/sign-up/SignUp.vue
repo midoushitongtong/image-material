@@ -24,7 +24,7 @@ const formValues = ref({
 });
 // form rules
 const formRules = Yup.object().shape({
-  username: Yup.string().required('请输入用户名'),
+  username: Yup.string().required('请输入用户名').max(20, '用户名长度应在1~20位之间'),
   password: Yup.string().required('请输入密码'),
   confirmPassword: Yup.string()
     .test('confirm-password', '两次输入密码不一致', function (value) {
@@ -100,6 +100,7 @@ const handleSubmit = async () => {
 // 人机验证
 const handleCaptcha = async () => {
   const result = await formRef.value.validate();
+
   if (result.valid) {
     visibleCaptcha.value = true;
   }
@@ -143,7 +144,7 @@ watch(
                   <input
                     v-bind="field"
                     :class="[
-                      'w-[100%] h-[41px] text-[14px] leading-[17px] bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-400 border border-solid border-zinc-300 text-base outline-0 p-1 rounded-sm duration-200 focus:border-main dark:focus:border-zinc-200',
+                      'w-[100%] h-[40px] text-[14px] leading-[17px] bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-400 border border-solid border-zinc-300 text-base outline-0 p-1 rounded-sm duration-200 focus:border-main dark:focus:border-zinc-200',
                       errorMessage && 'border-form-error shadow-form-error',
                     ]"
                     type="text"
@@ -165,7 +166,7 @@ watch(
                   <input
                     v-bind="field"
                     :class="[
-                      'w-[100%] h-[41px] text-[14px] leading-[17px] bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-400 border border-solid border-zinc-300 text-base outline-0 p-1 rounded-sm duration-200 focus:border-main dark:focus:border-zinc-200',
+                      'w-[100%] h-[40px] text-[14px] leading-[17px] bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-400 border border-solid border-zinc-300 text-base outline-0 p-1 rounded-sm duration-200 focus:border-main dark:focus:border-zinc-200',
                       errorMessage && 'border-form-error shadow-form-error',
                     ]"
                     type="password"
@@ -187,7 +188,7 @@ watch(
                   <input
                     v-bind="field"
                     :class="[
-                      'w-[100%] h-[41px] text-[14px] leading-[17px] bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-400 border border-solid border-zinc-300 text-base outline-0 p-1 rounded-sm duration-200 focus:border-main dark:focus:border-zinc-200',
+                      'w-[100%] h-[40px] text-[14px] leading-[17px] bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-400 border border-solid border-zinc-300 text-base outline-0 p-1 rounded-sm duration-200 focus:border-main dark:focus:border-zinc-200',
                       errorMessage && 'border-form-error shadow-form-error',
                     ]"
                     type="password"
@@ -223,7 +224,7 @@ watch(
                 注册即代表您同意《Image Material 注册协议》
               </div>
             </div>
-            <!-- 登录按钮 -->
+            <!-- 注册按钮 -->
             <div class="mb-2">
               <Button class="!w-full dark:bg-zinc-900" :loading="submitLoading" @click="handleCaptcha">
                 注册

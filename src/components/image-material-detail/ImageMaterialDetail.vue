@@ -6,6 +6,7 @@ import MobileNavigationBar from '@/components/mobile-navigation-bar/MobileNaviga
 import { useAppStore } from '@/store/resources/app';
 import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { showMessageTooltip } from '../message-tooltip';
 
 // define props
 type Props = {
@@ -41,6 +42,12 @@ const initData = async () => {
     initDataLoading.value = false;
   } catch (error) {
     console.log(error);
+
+    showMessageTooltip({
+      type: 'warn',
+      content: '服务器内部错误, 请稍后重试...',
+      duration: 3000,
+    });
   }
 };
 
