@@ -2,7 +2,6 @@
 import { useAccountStore } from '@/store/resources/account';
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { showMessageTooltip } from '../message-tooltip';
 import MobileMenuItem from './MobileMenuItem.vue';
 
 // account store
@@ -16,10 +15,8 @@ const router = useRouter();
 
 // handle vip click
 const handleVIPClick = () => {
-  showMessageTooltip({
-    type: 'warn',
-    content: '此功能尚未完善...',
-    duration: 3000,
+  router.push({
+    name: 'MembershipPlan',
   });
 };
 

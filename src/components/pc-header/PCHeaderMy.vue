@@ -26,7 +26,7 @@ const menuList = [
     path: '/Profile',
   },
   {
-    id: 'vipProfile',
+    id: 'membershipPlan',
     title: '升级 VIP',
     icon: 'vip-profile',
     path: '/membership',
@@ -46,6 +46,14 @@ const handleMenuClick = async (item: typeof menuList[0]) => {
   if (item.id === 'profile') {
     router.push({
       name: 'UserProfile',
+    });
+    return;
+  }
+
+  // membership plan
+  if (item.id === 'membershipPlan') {
+    router.push({
+      name: 'MembershipPlan',
     });
     return;
   }
@@ -72,12 +80,6 @@ const handleMenuClick = async (item: typeof menuList[0]) => {
     });
     return;
   }
-
-  showMessageTooltip({
-    type: 'warn',
-    content: '此功能尚未完善...',
-    duration: 3000,
-  });
 };
 
 // 前往登录

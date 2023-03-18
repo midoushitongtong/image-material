@@ -41,6 +41,16 @@ const routes: Readonly<RouteRecordRaw[]> = [
     },
     component: () => import('@/views/user/profile/Profile.vue'),
   },
+  {
+    path: '/membership-plan',
+    name: 'MembershipPlan',
+    component: () => import('@/views/membership-plan/MembershipPlan.vue'),
+  },
+  {
+    path: '/oauth',
+    name: 'Oauth',
+    component: () => import('@/views/oauth/Oauth.vue'),
+  },
 ];
 
 export default routes;

@@ -5,12 +5,19 @@ import Button from '@/components/button/Button.vue';
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import * as Yup from 'yup';
 import { Form as VeeForm, Field as VeeField } from 'vee-validate';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { getUserInfo, signIn } from '@/apis/account';
 import { showMessageTooltip } from '@/components/message-tooltip';
 import { useAccountStore } from '@/store/resources/account';
 import { useRoute, useRouter } from 'vue-router';
+import PCHeader from '@/components/pc-header/PCHeader.vue';
+import { useAppStore } from '@/store/resources/app';
+import { useOauth } from '@/hooks/oauth';
 
+// app store
+const appStore = useAppStore();
+// device type
+const deviceType = computed(() => appStore.deviceType);
 // form ref
 const formRef = ref();
 // route
@@ -33,6 +40,8 @@ const formRules = Yup.object().shape({
 const visibleCaptcha = ref(false);
 // submit loading
 const submitLoading = ref(false);
+// oauth
+const { qqAuthFlow } = useOauth();
 
 // handle submit
 const handleSubmit = async () => {
@@ -125,6 +134,9 @@ onMounted(() => {
 
 <template>
   <div class="sign-in">
+    <!-- header -->
+    <PCHeader v-if="deviceType === 'DESKTOP' || deviceType === 'TABLET'" hiddenSearch />
+
     <div class="relative bg-zinc-200 dark:bg-zinc-800 mobile:bg-white min-h-screen text-center">
       <AccountHeader />
 
@@ -201,8 +213,12 @@ onMounted(() => {
             </div>
             <!-- 第三方登录 -->
             <div class="py-2 flex justify-center">
-              <SVGIcon class="w-4 h-4 mx-0.5 cursor-pointer" name="qq" />
-              <SVGIcon class="w-4 h-4 mx-0.5 cursor-pointer" name="wexin" />
+              <div class="mx-0.5">
+                <SVGIcon class="w-4 h-4 cursor-pointer" name="qq" @click="qqAuthFlow" />
+              </div>
+              <div class="mx-0.5">
+                <SVGIcon class="w-4 h-4 cursor-pointer" name="wexin" />
+              </div>
             </div>
           </VeeForm>
         </div>

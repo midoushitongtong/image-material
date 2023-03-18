@@ -4,12 +4,18 @@ import SliderCaptcha from '@/components/slider-captcha/SliderCaptcha.vue';
 import Button from '@/components/button/Button.vue';
 import * as Yup from 'yup';
 import { Form as VeeForm, Field as VeeField } from 'vee-validate';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { getUserInfo, signUp } from '@/apis/account';
 import { showMessageTooltip } from '@/components/message-tooltip';
 import { useAccountStore } from '@/store/resources/account';
 import { useRouter } from 'vue-router';
+import PCHeader from '@/components/pc-header/PCHeader.vue';
+import { useAppStore } from '@/store/resources/app';
 
+// app store
+const appStore = useAppStore();
+// device type
+const deviceType = computed(() => appStore.deviceType);
 // form ref
 const formRef = ref();
 // router
@@ -119,6 +125,9 @@ watch(
 
 <template>
   <div class="sign-in">
+    <!-- header -->
+    <PCHeader v-if="deviceType === 'DESKTOP' || deviceType === 'TABLET'" hiddenSearch />
+
     <div class="relative bg-zinc-200 dark:bg-zinc-800 mobile:bg-white min-h-screen text-center">
       <AccountHeader />
 

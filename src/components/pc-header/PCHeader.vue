@@ -5,6 +5,12 @@ import PCHeaderTheme from './PCHeaderTheme.vue';
 import PCHeaderMy from './PCHeaderMy.vue';
 import { ref } from 'vue';
 
+// define props
+type Props = {
+  hiddenSearch?: boolean;
+};
+defineProps<Props>();
+
 // emits
 const emits = defineEmits<{
   (_name: 'onSubmitSearch', _keyword: string): void;
@@ -31,7 +37,7 @@ const handleSubmitSearch = () => {
 <template>
   <div class="pc-header">
     <div
-      class="w-full bg-white dark:bg-zinc-800 border-b border-solid border-b-zinc-200 dark:border-b-zinc-700 px-2 py-1 duration-500"
+      class="w-full bg-white dark:bg-zinc-800 border-b border-solid border-b-zinc-200 dark:border-b-zinc-700 px-2 mobile:px-1 py-1 duration-500"
     >
       <div class="flex items-center">
         <!-- logo -->
@@ -41,10 +47,19 @@ const handleSubmitSearch = () => {
           class="guide-home rounded-sm w-auto h-4 cursor-pointer mr-2"
           @click="toHome"
         />
+
         <!-- search -->
-        <PCHeaderSearch v-model:searchKeyword="searchKeyword" @onSubmitSearch="handleSubmitSearch" />
+        <PCHeaderSearch
+          v-if="!hiddenSearch"
+          v-model:searchKeyword="searchKeyword"
+          @onSubmitSearch="handleSubmitSearch"
+        />
+        <!-- search 容器占位 -->
+        <div v-else class="flex-1 pc-and-tablet:h-[54px]"></div>
+
         <!-- theme -->
         <PCHeaderTheme />
+
         <!-- my -->
         <PCHeaderMy />
       </div>

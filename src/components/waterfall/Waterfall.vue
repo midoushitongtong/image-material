@@ -212,10 +212,14 @@ const initLayout = async () => {
 
   initContainerLayout();
   // 渲染后的容器宽度
-  const renderRenderContainerWidth = containerLayout.value.width;
+  const renderAfterContainerWidth = containerLayout.value.width;
 
   // 如果不一致，可能受到滚动条影响，重新渲染一次
-  if (renderBeforeContainerWidth !== renderRenderContainerWidth) {
+  if (
+    renderBeforeContainerWidth &&
+    renderAfterContainerWidth &&
+    renderBeforeContainerWidth !== renderAfterContainerWidth
+  ) {
     initLayout();
   }
 };

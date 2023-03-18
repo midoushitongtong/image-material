@@ -14,6 +14,7 @@ import { showConfirmModal } from '@/utils/confirm-modal';
 import { chechRouteNeedAuth } from '@/utils/router';
 import { useRoute } from 'vue-router';
 import AvatarDetailModal from './AvatarDetailModal.vue';
+import PCHeader from '@/components/pc-header/PCHeader.vue';
 
 // form ref
 const formRef = ref();
@@ -137,8 +138,11 @@ const logout = async () => {
 
 <template>
   <div class="user-profile" v-if="userInfo">
+    <!-- header -->
+    <PCHeader v-if="deviceType === 'DESKTOP' || deviceType === 'TABLET'" hiddenSearch />
+
     <div
-      class="flex justify-center items-start h-screen bg-zinc-200 dark:bg-zinc-800 duration-300 overflow-auto"
+      class="overflow-hidden flex justify-center items-start min-h-[100vh] bg-[#f5f5f5] dark:bg-zinc-800 duration-300"
     >
       <div
         class="w-[100%] max-w-screen-lg relative bg-white dark:bg-zinc-900 duration-300 rounded-sm mobile:rounded-none border border-solid border-zinc-200 dark:border-zinc-600 mobile:border-0 p-4 mobile:p-0 m-2 mobile:m-0"

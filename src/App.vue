@@ -8,7 +8,13 @@ import { themeTypeEnquire, updateHTMLThemeType } from './utils/theme-type';
 import { THEME_SYSTEM } from './constants';
 import MobileMenu from './components/mobile-menu/MobileMenu.vue';
 import TransitionRouterView from './components/transition-router-view/TransitionRouterView.vue';
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
+import duration from 'dayjs/plugin/duration';
+import { useRoute } from 'vue-router';
 
+// route
+const route = useRoute();
 // app store
 const appStore = useAppStore();
 // theme type
@@ -26,6 +32,7 @@ const initSiteData = async () => {
       appStore.updateDeviceType(deviceType);
     },
   });
+
   // 当系统主题发生变化, 修改主题
   themeTypeEnquire({
     callback: (systemThemeType: string) => {
@@ -36,6 +43,10 @@ const initSiteData = async () => {
     },
     addListener: true,
   });
+
+  // 设置 dayjs
+  dayjs.locale('zh');
+  dayjs.extend(duration);
 };
 
 // watch
@@ -72,7 +83,15 @@ onBeforeMount(() => {
     <!-- 手机端需要路由动画 -->
     <TransitionRouterView v-else />
 
-    <MobileMenu v-if="deviceType === 'MOBILE'" />
+    <!-- 移动端菜单 -->
+    <MobileMenu
+      v-if="
+        route.name &&
+        deviceType === 'MOBILE' &&
+        // 部分页面不需要显示
+        !['MembershipPlan'].includes(route.name as string)
+      "
+    />
   </div>
 </template>
 
