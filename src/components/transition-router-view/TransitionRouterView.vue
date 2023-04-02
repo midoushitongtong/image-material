@@ -9,6 +9,8 @@ const router = useRouter();
 const transitionName = ref('');
 // refresh key
 const refreshKey = ref<Record<string, string>>({});
+// 不需要动画的路由
+const noNeedTransitionRouteName = ['ImageMaterialDetail'];
 
 // 路由守卫
 router.beforeEach(async (to, form, next) => {
@@ -26,10 +28,9 @@ router.beforeEach(async (to, form, next) => {
   if (
     to.name &&
     form.name &&
-    to.name !== form.name &&
     // 部分路由不需要动画
-    form.name !== 'ImageMaterialDetail' &&
-    to.name !== 'ImageMaterialDetail'
+    !noNeedTransitionRouteName.includes(form.name as string) &&
+    !noNeedTransitionRouteName.includes(to.name as string)
   ) {
     transitionName.value = toIndex > formIndex ? 'forward' : 'backward';
 
@@ -44,6 +45,8 @@ router.beforeEach(async (to, form, next) => {
         }
       }, 500);
     }
+  } else {
+    transitionName.value = '';
   }
 
   next();

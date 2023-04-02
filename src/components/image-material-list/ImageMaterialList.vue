@@ -13,11 +13,12 @@ export type ImageMaterialSearchParams = {
   keyword?: string;
 };
 
-// define props
 type Props = {
   waterfallOptions?: Partial<WaterfallProps>;
   imageMaterialSearchParams: ImageMaterialSearchParams;
 };
+
+// define props
 const props = defineProps<Props>();
 
 // init data loading

@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import SVGIcon from '../svg-icon/SVGIcon.vue';
 
-// define props
 type Props = {
   icon: string;
   iconClass?: string;
   text?: string;
   textClass?: string;
 };
+
+// define props
 defineProps<Props>();
 
 // define emits

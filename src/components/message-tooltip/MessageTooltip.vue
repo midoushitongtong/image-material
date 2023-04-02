@@ -3,7 +3,6 @@ import { computed, onMounted, ref } from 'vue';
 import SVGIcon from '../svg-icon/SVGIcon.vue';
 import { messageTooltipTypeStyle } from './data';
 
-// define props
 type Props = {
   // message 的类型
   type: keyof typeof messageTooltipTypeStyle;
@@ -14,6 +13,8 @@ type Props = {
   // 关闭的回调
   onClose?: Function;
 };
+
+// define props
 const props = defineProps<Props>();
 
 // visible

@@ -73,6 +73,11 @@ const handleGuide = () => {
   // 开始引导用户
   driver.value?.start();
 };
+
+// 立即吐槽
+const toFeedback = () => {
+  window.open('https://support.qq.com/products/538637', '_blank', 'noopener,noreferrer');
+};
 </script>
 
 <template>
@@ -104,6 +109,7 @@ const handleGuide = () => {
           <div class="w-[140px] overflow-hidden">
             <div
               class="flex items-center p-1 cursor-pointer rounded hover:bg-zinc-100/60 dark:hover:bg-zinc-800"
+              @click="toFeedback"
             >
               <SVGIcon
                 name="feedback"

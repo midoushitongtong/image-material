@@ -11,11 +11,12 @@ import ImageMaterialDetail from '@/components/image-material-detail/ImageMateria
 import gsap from 'gsap';
 import { useRouter } from 'vue-router';
 
-// define props
 type Props = {
   imageMaterialListItem: ImageMaterialListItem;
   containerWidth: number;
 };
+
+// define props
 const props = defineProps<Props>();
 
 // router

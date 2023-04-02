@@ -116,10 +116,8 @@ router.beforeEach(async (to, from, next) => {
 
 // 记录历史路由 id
 export const routerHistoryIdList: string[] = [];
-// 原 push 方法
-const originRouterPush = router.push;
-// 重写 push 方法
-router.push = function routerPush(params: RouteLocationRaw) {
+// 重写 parmas
+const rewriteParams = (params: any) => {
   const appStore = useAppStore();
   const deviceType = appStore.deviceType;
   const routerHistoryId = Math.random() + '';
@@ -133,8 +131,20 @@ router.push = function routerPush(params: RouteLocationRaw) {
       routerHistoryId,
     };
   }
-
+};
+// 原 push 方法
+const originRouterPush = router.push;
+// 原 replace 方法
+const originRouterReplace = router.replace;
+// 重写 push 方法
+router.push = function routerPush(params: RouteLocationRaw) {
+  rewriteParams(params);
   return originRouterPush.call(this, params);
+};
+// 重写 replace 方法
+router.replace = function routerPush(params: RouteLocationRaw) {
+  rewriteParams(params);
+  return originRouterReplace.call(this, params);
 };
 
 export default router;

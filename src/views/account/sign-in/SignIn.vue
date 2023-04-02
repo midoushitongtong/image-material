@@ -41,7 +41,7 @@ const visibleCaptcha = ref(false);
 // submit loading
 const submitLoading = ref(false);
 // oauth
-const { qqAuthFlow } = useOauth();
+const { qqAuthFlow, weixinAuthFlow } = useOauth();
 
 // handle submit
 const handleSubmit = async () => {
@@ -217,7 +217,7 @@ onMounted(() => {
                 <SVGIcon class="w-4 h-4 cursor-pointer" name="qq" @click="qqAuthFlow" />
               </div>
               <div class="mx-0.5">
-                <SVGIcon class="w-4 h-4 cursor-pointer" name="wexin" />
+                <SVGIcon class="w-4 h-4 cursor-pointer" name="wexin" @click="weixinAuthFlow" />
               </div>
             </div>
           </VeeForm>

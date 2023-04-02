@@ -4,11 +4,12 @@ import type { SearchHintListItem } from '@/apis/search/types';
 import { watchThrottled } from '@vueuse/core';
 import { showMessageTooltip } from '../message-tooltip';
 
-// define props
 type Props = {
   searchKeyword: string;
   searchHintList: SearchHintListItem[];
 };
+
+// define props
 const props = defineProps<Props>();
 
 // define emits
@@ -54,7 +55,7 @@ const formatKeyword = (keyword: string) => {
   return keyword.replace(higlightReg, higlightElement);
 };
 
-// 监听搜索关键字，筛选搜索提示
+// 监听搜索关键字，刷新搜索提示
 watchThrottled(
   () => props.searchKeyword,
   () => {

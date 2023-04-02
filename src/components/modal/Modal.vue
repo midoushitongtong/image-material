@@ -2,7 +2,6 @@
 import Button from '@/components/button/Button.vue';
 import { ref, watch } from 'vue';
 
-// define props
 type Props = {
   // 显示/隐藏
   visible: boolean;
@@ -21,6 +20,8 @@ type Props = {
   // 确定按钮点击事件
   onConfirm?: () => void;
 };
+
+// define props
 const props = defineProps<Props>();
 
 // define emits

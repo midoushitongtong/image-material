@@ -2,13 +2,14 @@
 import PCHeader from '@/components/pc-header/PCHeader.vue';
 import { useAppStore } from '@/store/resources/app';
 import MobileNavigationBar from '@/components/mobile-navigation-bar/MobileNavigationBar.vue';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, provide, ref } from 'vue';
 import { getMembershipPlanList } from '@/apis/membership-plan';
 import { showMessageTooltip } from '@/components/message-tooltip';
 import type { MembershipPlanListItem } from '@/apis/membership-plan/types';
 import MembershipPlanListItem_ from './MembershipPlanListItem.vue';
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import Payment from './Payment.vue';
+import PaymentResult from '@/components/payment-result/PaymentResult.vue';
 
 // app store
 const appStore = useAppStore();
@@ -19,11 +20,13 @@ const initDataLoading = ref(false);
 // membership plan list
 const membershipPlanList = ref<MembershipPlanListItem[]>([]);
 // 当前所选项
-const currentMembershiPlanId = ref<string | undefined>(undefined);
+const currentMembershipPlanId = ref<string | undefined>(undefined);
 // 当前所选项详情
 const currentMembershiPlanListItem = computed(() => {
-  return membershipPlanList.value.find((item) => item.id === currentMembershiPlanId.value);
+  return membershipPlanList.value.find((item) => item.id === currentMembershipPlanId.value);
 });
+// order id
+const orderId = ref<string | undefined>(undefined);
 
 // init data
 const initData = async () => {
@@ -32,7 +35,7 @@ const initData = async () => {
 
     const result = await getMembershipPlanList();
     membershipPlanList.value = result.data;
-    currentMembershiPlanId.value = result.data[0].id;
+    currentMembershipPlanId.value = result.data[0].id;
 
     initDataLoading.value = false;
   } catch (error) {
@@ -50,6 +53,10 @@ const initData = async () => {
 onMounted(() => {
   initData();
 });
+
+// provide
+provide('orderId', orderId);
+provide('currentMembershipPlanId', currentMembershipPlanId);
 </script>
 
 <template>
@@ -70,7 +77,7 @@ onMounted(() => {
 
         <!-- 内容 -->
         <template v-if="!initDataLoading">
-          <div class="w-full h-full p-2.5 mobile:p-1.5 pt-1 mobile:pt-3.5 text-base">
+          <div v-if="!orderId" class="w-full h-full p-2.5 mobile:p-1.5 pt-1 mobile:pt-3.5 text-base">
             <div class="text-2xl font-bold text-center tracking-widest text-yellow-600">精选VIP</div>
             <div class="mt-1.5 text-center text-yellow-500 text-base">升级精选VIP, 畅享所有内容</div>
 
@@ -80,8 +87,8 @@ onMounted(() => {
                 v-for="item of membershipPlanList"
                 :key="item.id"
                 :item="item"
-                :active="currentMembershiPlanId === item.id"
-                @onClick="currentMembershiPlanId = item.id"
+                :active="currentMembershipPlanId === item.id"
+                @onClick="currentMembershipPlanId = item.id"
               />
             </div>
 
@@ -96,6 +103,7 @@ onMounted(() => {
               :currentMembershiPlanListItem="currentMembershiPlanListItem"
             />
           </div>
+          <PaymentResult v-else :orderId="orderId" />
         </template>
         <!-- loading -->
         <div v-else class="p-2">

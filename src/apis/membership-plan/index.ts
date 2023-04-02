@@ -1,6 +1,6 @@
 import type { MembershipPlanListItem } from './types';
 
-// sign in
+// member plan list
 export const getMembershipPlanList = async (): Promise<{
   status: string;
   data: MembershipPlanListItem[];

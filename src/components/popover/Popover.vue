@@ -9,10 +9,11 @@ import {
   placementBottomRight,
 } from './data';
 
-// define props
 type Props = {
   placement?: string;
 };
+
+// define props
 const props = withDefaults(defineProps<Props>(), {
   placement: placementTopCenter,
 });

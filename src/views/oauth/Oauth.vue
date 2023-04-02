@@ -5,6 +5,7 @@ import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import { getUserInfo, signIn } from '@/apis/account';
 import { useAccountStore } from '@/store/resources/account';
 import { useRouter } from 'vue-router';
+import { broadcastEmitter } from '@/utils/broadcast';
 
 // router
 const router = useRouter();
@@ -51,6 +52,11 @@ const initData = async () => {
 
     router.push({
       name: 'Home',
+    });
+
+    // 通知其他 tab 页面登录成功, 刷新页面
+    broadcastEmitter.emit('oauthSuccess', {
+      status: 'success',
     });
 
     initDataLoading.value = false;

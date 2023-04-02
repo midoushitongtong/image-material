@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import { getImageMaterialDetail } from '@/apis/imater-material';
-import type { ImageMaterialListItem } from '@/apis/imater-material/types';
+import type { ImageMaterialDetail } from '@/apis/imater-material/types';
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import MobileNavigationBar from '@/components/mobile-navigation-bar/MobileNavigationBar.vue';
 import { useAppStore } from '@/store/resources/app';
 import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { showMessageTooltip } from '../message-tooltip';
+import { useShare } from '@/hooks/share';
 
-// define props
 type Props = {
   id?: string;
 };
+
+// define props
 const props = defineProps<Props>();
 
 // app store
@@ -27,7 +29,9 @@ const router = useRouter();
 // id
 const id = computed(() => (route.params.id || props.id) as string);
 // image material detail
-const imageMaterialDetail = ref<ImageMaterialListItem>();
+const imageMaterialDetail = ref<ImageMaterialDetail>();
+// share
+const share = useShare();
 
 // init data
 const initData = async () => {
@@ -57,6 +61,15 @@ const handleRightClick = () => {};
 // go back
 const goBack = () => {
   router.back();
+};
+
+// share
+const handleShare = () => {
+  share.weibo({
+    title: `这张图片不错哦，给大家分享一下 - ${imageMaterialDetail.value?.title}`,
+    pic: imageMaterialDetail.value?.photo,
+    url: location.href,
+  });
 };
 
 // on mounted
@@ -110,6 +123,7 @@ onMounted(() => {
             <SVGIcon
               name="share"
               class="w-4 h-4 p-1 cursor-pointer hover:bg-zinc-200 dark:hover-zinc-800 duration-300 rounded"
+              @click="handleShare"
             />
             <!-- 收藏 -->
             <SVGIcon

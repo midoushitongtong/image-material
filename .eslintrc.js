@@ -17,6 +17,9 @@ module.exports = {
     semi: ['error', 'always'],
     'vue/multi-word-component-names': 'off',
     'no-undef': 'off',
-    'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    'no-unused-vars': [
+      'warn',
+      { argsIgnorePattern: '^_', varsIgnorePattern: '^_', destructuredArrayIgnorePattern: '^_' },
+    ],
   },
 };

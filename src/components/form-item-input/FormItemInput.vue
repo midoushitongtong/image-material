@@ -2,7 +2,6 @@
 import { useElementBounding } from '@vueuse/core';
 import { computed, ref } from 'vue';
 
-// define props
 type Props = {
   // value
   value?: string;
@@ -19,6 +18,8 @@ type Props = {
   // error message
   errorMessage?: string;
 };
+
+// define props
 const props = withDefaults(defineProps<Props>(), {
   type: 'text',
 });

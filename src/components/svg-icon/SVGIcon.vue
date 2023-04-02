@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-// define props
 type Props = {
   // 显示的 svg
   name: string;
@@ -10,6 +9,8 @@ type Props = {
   // tailwind 指定 svg 颜色的类名
   fillClass?: string;
 };
+
+// define props
 const props = defineProps<Props>();
 
 // 真实显示的 svg 图标

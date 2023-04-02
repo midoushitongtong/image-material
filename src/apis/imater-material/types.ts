@@ -7,7 +7,6 @@ export type ImageMaterialListItem = {
   photo: string;
   photoDownLink: string;
   photoHeight: number;
-  photoLink: string;
   photoType: string;
   photoWidth: number;
   tags: string[];
@@ -15,17 +14,4 @@ export type ImageMaterialListItem = {
 };
 
 // image material detail
-export type ImageMaterialDetail = {
-  id: string;
-  author: string;
-  authorLike: string;
-  avatar: string;
-  photo: string;
-  photoDownLink: string;
-  photoHeight: number;
-  photoLink: string;
-  photoType: string;
-  photoWidth: number;
-  tags: string[];
-  title: string;
-};
+export type ImageMaterialDetail = ImageMaterialListItem;

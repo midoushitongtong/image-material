@@ -3,13 +3,14 @@ import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 import { useIntersectionObserver } from '@vueuse/core';
 import { ref, watch } from 'vue';
 
-// define props
 type Props = {
   // 是否处于加载状态
   loading: boolean;
   // 数据是否全部加载完成
   isFinished?: boolean;
 };
+
+// define props
 const props = withDefaults(defineProps<Props>(), {
   isFinished: false,
 });

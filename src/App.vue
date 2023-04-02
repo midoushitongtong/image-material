@@ -12,6 +12,8 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import duration from 'dayjs/plugin/duration';
 import { useRoute } from 'vue-router';
+import { broadcastEmitter } from './utils/broadcast';
+import { useOauth } from './hooks/oauth';
 
 // route
 const route = useRoute();
@@ -23,6 +25,8 @@ const themeType = computed(() => appStore.themeType);
 const deviceType = computed(() => appStore.deviceType);
 // font size
 useFonSize();
+// oauth
+const { listenAuthSuccess } = useOauth();
 
 // init site data
 const initSiteData = async () => {
@@ -47,6 +51,9 @@ const initSiteData = async () => {
   // 设置 dayjs
   dayjs.locale('zh');
   dayjs.extend(duration);
+
+  // 监听第三方登录成功, 刷新页面
+  listenAuthSuccess();
 };
 
 // watch

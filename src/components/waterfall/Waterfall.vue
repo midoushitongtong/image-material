@@ -4,7 +4,6 @@ import { useWindowSize } from '@vueuse/core';
 import { computed, ref, watch, nextTick } from 'vue';
 import { throttle } from 'lodash-es';
 
-// define props
 export type Props = {
   // 数据源
   dataSource: any[];
@@ -19,6 +18,8 @@ export type Props = {
   // 是否需要进行图片预读取
   imagePreReading?: boolean;
 };
+
+// define props
 const props = withDefaults(defineProps<Props>(), {
   columnNumber: 2,
   columnSpacing: 20,

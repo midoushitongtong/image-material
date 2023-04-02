@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { MembershipPlanListItem } from '@/apis/membership-plan/types';
 
-// define props
 type Props = {
   item: MembershipPlanListItem;
   active: boolean;
 };
+
+// define props
 defineProps<Props>();
 
 // define emits

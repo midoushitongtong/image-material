@@ -2,7 +2,6 @@
 import { onMounted, ref, computed } from 'vue';
 import Button from '@/components/button/Button.vue';
 
-// define props
 type Props = {
   // 标题
   title?: string;
@@ -19,6 +18,8 @@ type Props = {
   // 确定按钮事件
   onConfirm?: Function;
 };
+
+// define props
 const props = withDefaults(defineProps<Props>(), {
   cancelText: '取消',
   confirmText: '确定',

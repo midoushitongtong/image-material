@@ -3,7 +3,6 @@ import { computed } from 'vue';
 import { buttonSizeStyle, buttonTypeStyle } from './data';
 import SVGIcon from '@/components/svg-icon/SVGIcon.vue';
 
-// define props
 type Props = {
   // icon 图标
   iconName?: string;
@@ -22,6 +21,8 @@ type Props = {
   // html type
   htmlType?: 'button' | 'submit' | 'reset';
 };
+
+// define props
 const props = withDefaults(defineProps<Props>(), {
   type: 'main',
   size: 'default',

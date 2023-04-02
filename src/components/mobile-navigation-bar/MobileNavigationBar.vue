@@ -2,7 +2,6 @@
 import { useRouter } from 'vue-router';
 import SVGIcon from '../svg-icon/SVGIcon.vue';
 
-// define props
 type Props = {
   // 左侧按钮点击
   onLeftClick?: Function;
@@ -11,6 +10,8 @@ type Props = {
   // 是否吸顶
   sticky?: boolean;
 };
+
+// define props
 const props = withDefaults(defineProps<Props>(), {
   sticky: true,
 });

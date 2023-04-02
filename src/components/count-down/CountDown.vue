@@ -2,13 +2,14 @@
 import { computed, onUnmounted, ref, watch } from 'vue';
 import dayjs from 'dayjs';
 
-// define props
 type Props = {
   // 时间戳
   endTime: dayjs.Dayjs;
   // 循环 dayjs format 标准
   format?: string;
 };
+
+// define props
 const props = withDefaults(defineProps<Props>(), {
   format: 'HH:mm:ss',
 });

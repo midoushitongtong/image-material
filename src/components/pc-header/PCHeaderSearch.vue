@@ -9,10 +9,11 @@ import PCHeaderSearchHotCategory from './PCHeaderSearchHotCategory.vue';
 import { useSearchHistoryStore } from '@/store/resources/search-history';
 import type { SearchHintListItem } from '@/apis/search/types';
 
-// define props
 type Props = {
   searchKeyword: string;
 };
+
+// define props
 const props = defineProps<Props>();
 
 // define emits

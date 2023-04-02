@@ -5,10 +5,11 @@ import PCHeaderTheme from './PCHeaderTheme.vue';
 import PCHeaderMy from './PCHeaderMy.vue';
 import { ref } from 'vue';
 
-// define props
 type Props = {
   hiddenSearch?: boolean;
 };
+
+// define props
 defineProps<Props>();
 
 // emits
